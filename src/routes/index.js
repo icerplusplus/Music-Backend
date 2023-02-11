@@ -1,15 +1,11 @@
 import express from "express";
-import { spotifyController } from "./../controllers/spotifyController";
+import musicController from "../controllers/musicController";
 
 const router = express.Router();
 
-// Hide router
-router.get("/spotify/authorization", spotifyController.saveToken);
-
 // Main routers
-router.get("/", spotifyController.createSpotifyAuthorize);
-router.get("/albums", spotifyController.getAlbums);
-router.get("/playlists", spotifyController.getPlaylists);
-router.get("/track", spotifyController.getTrack);
+router.get("/genres", musicController.getGenres);
+router.get("/playlist", musicController.getPlaylist);
+router.get("/track", musicController.getTrack);
 
 export default router;
