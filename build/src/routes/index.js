@@ -9,19 +9,9 @@ var _express = _interopRequireDefault(require("express"));
 var _musicController = _interopRequireDefault(require("../controllers/musicController"));
 var router = _express["default"].Router();
 
-// Hide router
-// router.get("/spotify/authorization", spotifyController.saveToken);
-
 // Main routers
-
-// router.get("/", spotifyController.createSpotifyAuthorize);
-// router.get("/top-playlists", spotifyController.getTopPlaylists);
-// router.get("/playlist-tracks", spotifyController.getTrackByPlaylistId);
-// router.get("/albums", spotifyController.getTopAlbums);
-// router.get("/albums", spotifyController.getAlbums);
-// router.get("/playlists", spotifyController.getPlaylists);
-// router.get("/track", spotifyController.getTrack);
-
-router.get("/playlists", _musicController["default"].getTopPlaylists);
+router.get("/genres", _musicController["default"].getGenres);
+router.get("/playlist", _musicController["default"].getPlaylist);
+router.get("/track", _musicController["default"].getTrack);
 var _default = router;
 exports["default"] = _default;

@@ -8,8 +8,7 @@ var _cors = _interopRequireDefault(require("cors"));
 require("dotenv/config");
 var _routes = _interopRequireDefault(require("./routes"));
 var _mongodbInstance = require("./libs/mongodbInstance");
-var _bodyParser = _interopRequireDefault(require("body-parser"));
-var _cookieParser = _interopRequireDefault(require("cookie-parser"));
+var _header = require("./middlewares/header");
 var main = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
     var app;
@@ -20,20 +19,15 @@ var main = /*#__PURE__*/function () {
           app = (0, _express["default"])(); // use middleware
           app.use((0, _cors["default"])());
           app.use(_express["default"].json());
-          app.use(function (req, res, next) {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-            next();
-          });
 
           // routers
-          app.use("/api", _routes["default"]);
+          app.use("/api", _header.header.allowAll, _routes["default"]);
           app.listen(process.env.PORT, function () {
             // connect to mongodb server
             (0, _mongodbInstance.mongodbInstance)();
             console.log("\uD83D\uDE80 CMsuicApi Server is running on port http://localhost:".concat(process.env.PORT, "/api ..."));
           });
-        case 6:
+        case 5:
         case "end":
           return _context.stop();
       }
