@@ -7,6 +7,43 @@ import { data } from "./../api/data";
 // 1 playlist co nhieu track
 
 const musicController = {
+  getTopTrack: async (req, res) => {
+    const newOptions = {
+      ...options,
+      url: options.url + "/chart/tracks/top",
+      params: { region: "VN" },
+    };
+    // const { data } = await axios.request(newOptions);
+
+    return res.status(200).json({
+      data: data.topTrack,
+    });
+  },
+  getTopArtists: async (req, res) => {
+    const newOptions = {
+      ...options,
+      url: options.url + "/chart/artists/top",
+      params: { region: "VN" },
+    };
+    // const { data } = await axios.request(newOptions);
+
+    return res.status(200).json({
+      data: data.topArtists,
+    });
+  },
+  getTopAlbums: async (req, res) => {
+    const newOptions = {
+      ...options,
+      url: options.url + "/chart/albums/top",
+      params: { region: "VN" },
+    };
+    // const { data } = await axios.request(newOptions);
+
+    return res.status(200).json({
+      data: data.topAlbums,
+    });
+  },
+
   getGenres: async (req, res) => {
     const newOptions = {
       ...options,
