@@ -13,5 +13,8 @@ var router = _express["default"].Router();
 router.get("/genres", _musicController["default"].getGenres);
 router.get("/playlist", _musicController["default"].getPlaylist);
 router.get("/track", _musicController["default"].getTrack);
+router.get("/top-tracks", _musicController["default"].getTopTrack);
+router.get("/top-albums", _musicController["default"].getTopAlbums);
+router.get("/top-artists", _musicController["default"].getTopArtists);
 var _default = router;
 exports["default"] = _default;
