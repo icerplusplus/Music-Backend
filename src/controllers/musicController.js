@@ -12,11 +12,18 @@ const musicController = {
       url: options.url + "/chart/tracks/top",
       params: { region: "VN" },
     };
-    const { data } = await axios.request(newOptions);
+    try {
+      const { data } = await axios.request(newOptions);
 
-    return res.status(200).json({
-      data,
-    });
+      return res.status(200).json({
+        data,
+      });
+    } catch (error) {
+      console.log("Not fetch track with id: " + trackId);
+      return res.status(500).json({
+        error: error,
+      });
+    }
   },
   getTopArtists: async (req, res) => {
     const newOptions = {
@@ -24,11 +31,18 @@ const musicController = {
       url: options.url + "/chart/artists/top",
       params: { region: "VN" },
     };
-    const { data } = await axios.request(newOptions);
+    try {
+      const { data } = await axios.request(newOptions);
 
-    return res.status(200).json({
-      data,
-    });
+      return res.status(200).json({
+        data,
+      });
+    } catch (error) {
+      console.log("Not fetch track with id: " + trackId);
+      return res.status(500).json({
+        error: error,
+      });
+    }
   },
   getTopAlbums: async (req, res) => {
     const newOptions = {
@@ -36,11 +50,18 @@ const musicController = {
       url: options.url + "/chart/albums/top",
       params: { region: "VN" },
     };
-    const { data } = await axios.request(newOptions);
+    try {
+      const { data } = await axios.request(newOptions);
 
-    return res.status(200).json({
-      data,
-    });
+      return res.status(200).json({
+        data,
+      });
+    } catch (error) {
+      console.log("Not fetch track with id: " + trackId);
+      return res.status(500).json({
+        error: error,
+      });
+    }
   },
 
   getGenres: async (req, res) => {
@@ -50,11 +71,18 @@ const musicController = {
       params: { region: "VN" },
     };
 
-    const { data } = await axios.request(newOptions);
+    try {
+      const { data } = await axios.request(newOptions);
 
-    return res.status(200).json({
-      data,
-    });
+      return res.status(200).json({
+        data,
+      });
+    } catch (error) {
+      console.log("Not fetch track with id: " + trackId);
+      return res.status(500).json({
+        error: error,
+      });
+    }
   },
 
   // get track list with playlist Id
@@ -66,12 +94,18 @@ const musicController = {
       url: options.url + "/playlist/contents",
       params: { playlistId },
     };
+    try {
+      const { data } = await axios.request(newOptions);
 
-    const { data } = await axios.request(newOptions);
-
-    return res.status(200).json({
-      data,
-    });
+      return res.status(200).json({
+        data,
+      });
+    } catch (error) {
+      console.log("Not fetch track with id: " + trackId);
+      return res.status(500).json({
+        error: error,
+      });
+    }
   },
 
   // find Track on SoundCloud

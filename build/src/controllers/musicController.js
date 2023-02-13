@@ -29,19 +29,27 @@ var musicController = {
                 region: "VN"
               }
             });
-            _context.next = 3;
+            _context.prev = 1;
+            _context.next = 4;
             return _axios["default"].request(newOptions);
-          case 3:
+          case 4:
             _yield$axios$request = _context.sent;
             data = _yield$axios$request.data;
             return _context.abrupt("return", res.status(200).json({
               data: data
             }));
-          case 6:
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context["catch"](1);
+            console.log("Not fetch track with id: " + trackId);
+            return _context.abrupt("return", res.status(500).json({
+              error: _context.t0
+            }));
+          case 13:
           case "end":
             return _context.stop();
         }
-      }, _callee);
+      }, _callee, null, [[1, 9]]);
     }));
     function getTopTrack(_x, _x2) {
       return _getTopTrack.apply(this, arguments);
@@ -60,19 +68,27 @@ var musicController = {
                 region: "VN"
               }
             });
-            _context2.next = 3;
+            _context2.prev = 1;
+            _context2.next = 4;
             return _axios["default"].request(newOptions);
-          case 3:
+          case 4:
             _yield$axios$request2 = _context2.sent;
             data = _yield$axios$request2.data;
             return _context2.abrupt("return", res.status(200).json({
               data: data
             }));
-          case 6:
+          case 9:
+            _context2.prev = 9;
+            _context2.t0 = _context2["catch"](1);
+            console.log("Not fetch track with id: " + trackId);
+            return _context2.abrupt("return", res.status(500).json({
+              error: _context2.t0
+            }));
+          case 13:
           case "end":
             return _context2.stop();
         }
-      }, _callee2);
+      }, _callee2, null, [[1, 9]]);
     }));
     function getTopArtists(_x3, _x4) {
       return _getTopArtists.apply(this, arguments);
@@ -91,19 +107,27 @@ var musicController = {
                 region: "VN"
               }
             });
-            _context3.next = 3;
+            _context3.prev = 1;
+            _context3.next = 4;
             return _axios["default"].request(newOptions);
-          case 3:
+          case 4:
             _yield$axios$request3 = _context3.sent;
             data = _yield$axios$request3.data;
             return _context3.abrupt("return", res.status(200).json({
               data: data
             }));
-          case 6:
+          case 9:
+            _context3.prev = 9;
+            _context3.t0 = _context3["catch"](1);
+            console.log("Not fetch track with id: " + trackId);
+            return _context3.abrupt("return", res.status(500).json({
+              error: _context3.t0
+            }));
+          case 13:
           case "end":
             return _context3.stop();
         }
-      }, _callee3);
+      }, _callee3, null, [[1, 9]]);
     }));
     function getTopAlbums(_x5, _x6) {
       return _getTopAlbums.apply(this, arguments);
@@ -122,19 +146,27 @@ var musicController = {
                 region: "VN"
               }
             });
-            _context4.next = 3;
+            _context4.prev = 1;
+            _context4.next = 4;
             return _axios["default"].request(newOptions);
-          case 3:
+          case 4:
             _yield$axios$request4 = _context4.sent;
             data = _yield$axios$request4.data;
             return _context4.abrupt("return", res.status(200).json({
               data: data
             }));
-          case 6:
+          case 9:
+            _context4.prev = 9;
+            _context4.t0 = _context4["catch"](1);
+            console.log("Not fetch track with id: " + trackId);
+            return _context4.abrupt("return", res.status(500).json({
+              error: _context4.t0
+            }));
+          case 13:
           case "end":
             return _context4.stop();
         }
-      }, _callee4);
+      }, _callee4, null, [[1, 9]]);
     }));
     function getGenres(_x7, _x8) {
       return _getGenres.apply(this, arguments);
@@ -155,19 +187,27 @@ var musicController = {
                 playlistId: playlistId
               }
             });
-            _context5.next = 4;
+            _context5.prev = 2;
+            _context5.next = 5;
             return _axios["default"].request(newOptions);
-          case 4:
+          case 5:
             _yield$axios$request5 = _context5.sent;
             data = _yield$axios$request5.data;
             return _context5.abrupt("return", res.status(200).json({
               data: data
             }));
-          case 7:
+          case 10:
+            _context5.prev = 10;
+            _context5.t0 = _context5["catch"](2);
+            console.log("Not fetch track with id: " + trackId);
+            return _context5.abrupt("return", res.status(500).json({
+              error: _context5.t0
+            }));
+          case 14:
           case "end":
             return _context5.stop();
         }
-      }, _callee5);
+      }, _callee5, null, [[2, 10]]);
     }));
     function getPlaylist(_x9, _x10) {
       return _getPlaylist.apply(this, arguments);
