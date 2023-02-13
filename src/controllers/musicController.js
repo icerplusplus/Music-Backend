@@ -1,6 +1,5 @@
 import axios from "axios";
 import { options } from "./../libs/constant";
-import { data } from "./../api/data";
 
 // get Genres
 // 1 genre co nhieu playlist
@@ -13,10 +12,10 @@ const musicController = {
       url: options.url + "/chart/tracks/top",
       params: { region: "VN" },
     };
-    // const { data } = await axios.request(newOptions);
+    const { data } = await axios.request(newOptions);
 
     return res.status(200).json({
-      data: data.topTrack,
+      data,
     });
   },
   getTopArtists: async (req, res) => {
@@ -25,10 +24,10 @@ const musicController = {
       url: options.url + "/chart/artists/top",
       params: { region: "VN" },
     };
-    // const { data } = await axios.request(newOptions);
+    const { data } = await axios.request(newOptions);
 
     return res.status(200).json({
-      data: data.topArtists,
+      data,
     });
   },
   getTopAlbums: async (req, res) => {
@@ -37,10 +36,10 @@ const musicController = {
       url: options.url + "/chart/albums/top",
       params: { region: "VN" },
     };
-    // const { data } = await axios.request(newOptions);
+    const { data } = await axios.request(newOptions);
 
     return res.status(200).json({
-      data: data.topAlbums,
+      data,
     });
   },
 
@@ -51,10 +50,10 @@ const musicController = {
       params: { region: "VN" },
     };
 
-    // const { data } = await axios.request(newOptions);
+    const { data } = await axios.request(newOptions);
 
     return res.status(200).json({
-      data: data.genres,
+      data,
     });
   },
 
@@ -68,10 +67,10 @@ const musicController = {
       params: { playlistId },
     };
 
-    // const { data } = await axios.request(newOptions);
+    const { data } = await axios.request(newOptions);
 
     return res.status(200).json({
-      data: data.playlistTracks,
+      data,
     });
   },
 
@@ -86,10 +85,10 @@ const musicController = {
       params: { track: trackId },
     };
 
-    // const { data } = await axios.request(newOptions);
+    const { data } = await axios.request(newOptions);
 
     return res.status(200).json({
-      data: data.track,
+      data,
     });
   },
 };
