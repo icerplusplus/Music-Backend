@@ -182,6 +182,7 @@ var musicController = {
       return _regenerator["default"].wrap(function _callee6$(_context6) {
         while (1) switch (_context6.prev = _context6.next) {
           case 0:
+            console.log("trackId: ", req.params.trackId);
             trackId = req.params.trackId || "4CUvVaAYuXtvYURLFz7EIL";
             newOptions = _objectSpread(_objectSpread({}, _constant.options), {}, {
               url: _constant.options.url + "/track/download/soundcloud",
@@ -189,15 +190,15 @@ var musicController = {
                 track: trackId
               }
             });
-            _context6.next = 4;
+            _context6.next = 5;
             return _axios["default"].request(newOptions);
-          case 4:
+          case 5:
             _yield$axios$request6 = _context6.sent;
             data = _yield$axios$request6.data;
             return _context6.abrupt("return", res.status(200).json({
               data: data
             }));
-          case 7:
+          case 8:
           case "end":
             return _context6.stop();
         }
