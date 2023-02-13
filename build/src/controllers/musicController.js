@@ -183,26 +183,34 @@ var musicController = {
         while (1) switch (_context6.prev = _context6.next) {
           case 0:
             console.log("trackId: ", req.params.trackId);
-            trackId = req.params.trackId || "4CUvVaAYuXtvYURLFz7EIL";
+            trackId = req.params.trackId;
             newOptions = _objectSpread(_objectSpread({}, _constant.options), {}, {
               url: _constant.options.url + "/track/download/soundcloud",
               params: {
                 track: trackId
               }
             });
-            _context6.next = 5;
+            _context6.prev = 3;
+            _context6.next = 6;
             return _axios["default"].request(newOptions);
-          case 5:
+          case 6:
             _yield$axios$request6 = _context6.sent;
             data = _yield$axios$request6.data;
             return _context6.abrupt("return", res.status(200).json({
               data: data
             }));
-          case 8:
+          case 11:
+            _context6.prev = 11;
+            _context6.t0 = _context6["catch"](3);
+            console.log("Not fetch track with id: " + trackId);
+            return _context6.abrupt("return", res.status(500).json({
+              error: _context6.t0
+            }));
+          case 15:
           case "end":
             return _context6.stop();
         }
-      }, _callee6);
+      }, _callee6, null, [[3, 11]]);
     }));
     function getTrack(_x11, _x12) {
       return _getTrack.apply(this, arguments);

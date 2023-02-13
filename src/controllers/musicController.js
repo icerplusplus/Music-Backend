@@ -78,7 +78,7 @@ const musicController = {
   // find by Track ID, track share URL, track name, ...
   getTrack: async (req, res) => {
     console.log("trackId: ", req.params.trackId);
-    const trackId = req.params.trackId || "4CUvVaAYuXtvYURLFz7EIL";
+    const trackId = req.params.trackId;
 
     const newOptions = {
       ...options,
@@ -86,11 +86,18 @@ const musicController = {
       params: { track: trackId },
     };
 
-    const { data } = await axios.request(newOptions);
+    try {
+      const { data } = await axios.request(newOptions);
 
-    return res.status(200).json({
-      data,
-    });
+      return res.status(200).json({
+        data,
+      });
+    } catch (error) {
+      console.log("Not fetch track with id: " + trackId);
+      return res.status(500).json({
+        error: error,
+      });
+    }
   },
 };
 export default musicController;
