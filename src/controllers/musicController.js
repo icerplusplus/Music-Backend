@@ -19,7 +19,7 @@ const musicController = {
         data,
       });
     } catch (error) {
-      console.log("Not fetch top track ");
+      console.log("Not fetch top track :))");
       return res.status(500).json({
         error: error,
       });
