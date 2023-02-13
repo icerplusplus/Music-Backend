@@ -77,6 +77,7 @@ const musicController = {
   // find Track on SoundCloud
   // find by Track ID, track share URL, track name, ...
   getTrack: async (req, res) => {
+    console.log("trackId: ", req.params.trackId);
     const trackId = req.params.trackId || "4CUvVaAYuXtvYURLFz7EIL";
 
     const newOptions = {
