@@ -41,7 +41,7 @@ var musicController = {
           case 9:
             _context.prev = 9;
             _context.t0 = _context["catch"](1);
-            console.log("Not fetch track with id: " + trackId);
+            console.log("Not fetch top track ");
             return _context.abrupt("return", res.status(500).json({
               error: _context.t0
             }));
@@ -80,7 +80,7 @@ var musicController = {
           case 9:
             _context2.prev = 9;
             _context2.t0 = _context2["catch"](1);
-            console.log("Not fetch track with id: " + trackId);
+            console.log("Not fetch top artists: ");
             return _context2.abrupt("return", res.status(500).json({
               error: _context2.t0
             }));
@@ -119,7 +119,7 @@ var musicController = {
           case 9:
             _context3.prev = 9;
             _context3.t0 = _context3["catch"](1);
-            console.log("Not fetch track with id: " + trackId);
+            console.log("Not fetch top albums");
             return _context3.abrupt("return", res.status(500).json({
               error: _context3.t0
             }));
@@ -158,7 +158,7 @@ var musicController = {
           case 9:
             _context4.prev = 9;
             _context4.t0 = _context4["catch"](1);
-            console.log("Not fetch track with id: " + trackId);
+            console.log("Not fetch Genres");
             return _context4.abrupt("return", res.status(500).json({
               error: _context4.t0
             }));
@@ -199,7 +199,7 @@ var musicController = {
           case 10:
             _context5.prev = 10;
             _context5.t0 = _context5["catch"](2);
-            console.log("Not fetch track with id: " + trackId);
+            console.log("Not fetch playlist with id: " + playlistId);
             return _context5.abrupt("return", res.status(500).json({
               error: _context5.t0
             }));

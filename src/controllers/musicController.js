@@ -19,7 +19,7 @@ const musicController = {
         data,
       });
     } catch (error) {
-      console.log("Not fetch track with id: " + trackId);
+      console.log("Not fetch top track ");
       return res.status(500).json({
         error: error,
       });
@@ -38,7 +38,7 @@ const musicController = {
         data,
       });
     } catch (error) {
-      console.log("Not fetch track with id: " + trackId);
+      console.log("Not fetch top artists: ");
       return res.status(500).json({
         error: error,
       });
@@ -57,7 +57,7 @@ const musicController = {
         data,
       });
     } catch (error) {
-      console.log("Not fetch track with id: " + trackId);
+      console.log("Not fetch top albums");
       return res.status(500).json({
         error: error,
       });
@@ -78,7 +78,7 @@ const musicController = {
         data,
       });
     } catch (error) {
-      console.log("Not fetch track with id: " + trackId);
+      console.log("Not fetch Genres");
       return res.status(500).json({
         error: error,
       });
@@ -101,7 +101,7 @@ const musicController = {
         data,
       });
     } catch (error) {
-      console.log("Not fetch track with id: " + trackId);
+      console.log("Not fetch playlist with id: " + playlistId);
       return res.status(500).json({
         error: error,
       });
