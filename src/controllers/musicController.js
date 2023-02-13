@@ -7,13 +7,12 @@ import { options } from "./../libs/constant";
 
 const musicController = {
   getTopTrack: async (req, res) => {
-    const newOptions = {
-      ...options,
-      url: options.url + "/chart/tracks/top",
-      params: { region: "VN" },
-    };
     try {
-      const { data } = await axios.request(newOptions);
+      const { data } = await axios.get(`${options.url}/chart/tracks/top`, {
+        headers: options.headers,
+        params: { region: "VN" },
+      });
+      console.log(data);
 
       return res.status(200).json({
         data,
@@ -26,38 +25,36 @@ const musicController = {
     }
   },
   getTopArtists: async (req, res) => {
-    const newOptions = {
-      ...options,
-      url: options.url + "/chart/artists/top",
-      params: { region: "VN" },
-    };
     try {
-      const { data } = await axios.request(newOptions);
+      const { data } = await axios.get(`${options.url}/chart/artists/top`, {
+        headers: options.headers,
+        params: { region: "VN" },
+      });
+      console.log(data);
 
-      return res.status(200).json({
-        data,
+      res.status(200).json({
+        data: data,
       });
     } catch (error) {
-      console.log("Not fetch top artists: ");
+      console.log("Not fetch top artists :))");
       return res.status(500).json({
         error: error,
       });
     }
   },
   getTopAlbums: async (req, res) => {
-    const newOptions = {
-      ...options,
-      url: options.url + "/chart/albums/top",
-      params: { region: "VN" },
-    };
     try {
-      const { data } = await axios.request(newOptions);
+      const { data } = await axios.get(`${options.url}/chart/albums/top`, {
+        headers: options.headers,
+        params: { region: "VN" },
+      });
+      console.log(data);
 
       return res.status(200).json({
         data,
       });
     } catch (error) {
-      console.log("Not fetch top albums");
+      console.log("Not fetch top artists :))");
       return res.status(500).json({
         error: error,
       });
@@ -65,14 +62,12 @@ const musicController = {
   },
 
   getGenres: async (req, res) => {
-    const newOptions = {
-      ...options,
-      url: options.url + "/home",
-      params: { region: "VN" },
-    };
-
     try {
-      const { data } = await axios.request(newOptions);
+      const { data } = await axios.get(`${options.url}/home`, {
+        headers: options.headers,
+        params: { region: "VN" },
+      });
+      console.log(data);
 
       return res.status(200).json({
         data,
@@ -89,13 +84,12 @@ const musicController = {
   getPlaylist: async (req, res) => {
     const playlistId = req.params.playlistId || "37i9dQZF1DWVbRrSFENdgA";
 
-    const newOptions = {
-      ...options,
-      url: options.url + "/playlist/contents",
-      params: { playlistId },
-    };
     try {
-      const { data } = await axios.request(newOptions);
+      const { data } = await axios.get(`${options.url}/playlist/contents`, {
+        headers: options.headers,
+        params: { playlistId },
+      });
+      console.log(data);
 
       return res.status(200).json({
         data,
@@ -111,17 +105,17 @@ const musicController = {
   // find Track on SoundCloud
   // find by Track ID, track share URL, track name, ...
   getTrack: async (req, res) => {
-    console.log("trackId: ", req.params.trackId);
     const trackId = req.params.trackId;
 
-    const newOptions = {
-      ...options,
-      url: options.url + "/track/download/soundcloud",
-      params: { track: trackId },
-    };
-
     try {
-      const { data } = await axios.request(newOptions);
+      const { data } = await axios.get(
+        `${options.url}/track/download/soundcloud`,
+        {
+          headers: options.headers,
+          params: { track: trackId },
+        }
+      );
+      console.log(data);
 
       return res.status(200).json({
         data,
