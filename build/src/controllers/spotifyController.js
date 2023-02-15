@@ -400,7 +400,8 @@ var spotifyController = {
             return (0, _tokenManager.getTheLastTokenFromDb)();
           case 4:
             lastedToken = _context9.sent;
-            console.log("lastedToken: ", timeCurrent, expiresAt);
+            // console.log("lastedToken: ", timeCurrent, expiresAt);
+
             _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/playlists/").concat(playlistId), {
               headers: {
                 Authorization: "Bearer " + lastedToken.accessToken
@@ -416,19 +417,19 @@ var spotifyController = {
                 message: error
               });
             });
-            _context9.next = 12;
+            _context9.next = 11;
             break;
-          case 9:
-            _context9.prev = 9;
+          case 8:
+            _context9.prev = 8;
             _context9.t0 = _context9["catch"](0);
             return _context9.abrupt("return", res.status(404).json({
               message: _context9.t0
             }));
-          case 12:
+          case 11:
           case "end":
             return _context9.stop();
         }
-      }, _callee9, null, [[0, 9]]);
+      }, _callee9, null, [[0, 8]]);
     }));
     function getPlaylistTracks(_x17, _x18) {
       return _getPlaylistTracks.apply(this, arguments);

@@ -206,7 +206,7 @@ export const spotifyController = {
     try {
       const { playlistId } = req.params;
       const lastedToken = await getTheLastTokenFromDb();
-      console.log("lastedToken: ", timeCurrent, expiresAt);
+      // console.log("lastedToken: ", timeCurrent, expiresAt);
 
       axios
         .get(`${process.env.SPOTIFY_API_BASE_URL}/playlists/${playlistId}`, {
