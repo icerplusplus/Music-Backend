@@ -12,6 +12,12 @@ var tokenSchema = new _mongoose["default"].Schema({
   },
   refreshToken: {
     type: "string"
+  },
+  expiresIn: {
+    type: "string"
+  },
+  expiresAt: {
+    type: "string"
   }
 }, {
   timestamps: true

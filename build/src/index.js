@@ -7,7 +7,7 @@ var _express = _interopRequireDefault(require("express"));
 var _cors = _interopRequireDefault(require("cors"));
 require("dotenv/config");
 var _routes = _interopRequireDefault(require("./routes"));
-var _mongodbInstance = require("./libs/mongodbInstance");
+var _mongodbInstance = require("./utils/mongodbInstance");
 var _header = require("./middlewares/header");
 var main = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {

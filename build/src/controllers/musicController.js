@@ -8,7 +8,7 @@ exports["default"] = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _axios = _interopRequireDefault(require("axios"));
-var _constant = require("./../libs/constant");
+var _constant = require("./../utils/constant");
 // get Genres
 // 1 genre co nhieu playlist
 // 1 playlist co nhieu track
