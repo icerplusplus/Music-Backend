@@ -8,6 +8,12 @@ const tokenSchema = new mongoose.Schema(
     refreshToken: {
       type: "string",
     },
+    expiresIn: {
+      type: "string",
+    },
+    expiresAt: {
+      type: "string",
+    },
   },
   { timestamps: true }
 );

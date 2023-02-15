@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import router from "./routes";
-import { mongodbInstance } from "./libs/mongodbInstance";
+import { mongodbInstance } from "./utils/mongodbInstance";
 import { header } from "./middlewares/header";
 
 const main = async () => {

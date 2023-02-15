@@ -1,5 +1,5 @@
 import axios from "axios";
-import { options } from "./../libs/constant";
+import { options } from "./../utils/constant";
 
 // get Genres
 // 1 genre co nhieu playlist

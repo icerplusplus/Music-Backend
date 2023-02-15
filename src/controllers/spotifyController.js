@@ -1,98 +1,253 @@
+import axios from "axios";
 import "dotenv/config";
+import { spotifyScopes } from "../utils/constant";
+import { getToken, getTopAlbums } from "../utils/spotifyManager";
+import { getTheLastTokenFromDb } from "../utils/tokenManager";
 
 export const spotifyController = {
-
-  // get the top 10 playlists in Vietnam
-  getTopPlaylists: async (req, res) => {
-    const { limit, location } = req.body;
-
+  spotifyAuthorize: async (req, res) => {
     try {
-      
-      return res.status(200).json({ data});
+      const response = await getToken();
+
+      return res.status(200).json({
+        data: {
+          token: {
+            access_token: response.access_token,
+            expiresIn: response.expires_in,
+            expiresAt:
+              new Date().getTime() + parseInt(response?.expires_in) * 1000,
+          },
+        },
+      });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ data: {}, errors: { message: "Playlist not found." } });
+      return res.status(404).json({ message: error });
     }
   },
-
-  // get tracks from playlist id
-  getTrackByPlaylistId: async (req, res) => {
-    const { playlistId } = req.body;
-
+  getTopAlbums: async (req, res) => {
     try {
-      const data = await spotifyApi.getPlaylistTracks(
-        playlistId || "37i9dQZF1DWVOaOWiVD1Lf"
-      );
-      return res.status(200).json({ data: data.body.items });
+      const lastedToken = await getTheLastTokenFromDb();
+
+      axios
+        .get(
+          `${process.env.SPOTIFY_API_BASE_URL}/browse/new-releases?limit=10`,
+          {
+            headers: {
+              Authorization: `Bearer ${lastedToken.accessToken}`,
+            },
+            params: {
+              market: "VN",
+            },
+          }
+        )
+        .then((response) => {
+          return res.status(200).json({ data: response.data });
+        });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ data: {}, errors: { message: "Playlist not found." } });
+      return res.status(404).json({ message: error });
     }
   },
-
-  // get the top 10 artists in Vietnam
-  getAlbumsByArtist: async (req, res) => {
-    const { artistId } = req.body;
+  getAlbumTracks: async (req, res) => {
     try {
-      const data = await spotifyApi.getArtistAlbums(artistId);
-      return res.status(200).json({ data: data.body.items });
+      const { albumId } = req.params;
+      const limit = 10;
+      const lastedToken = await getTheLastTokenFromDb();
+      axios
+        .get(`${process.env.SPOTIFY_API_BASE_URL}/albums/${albumId}/tracks`, {
+          headers: {
+            Authorization: "Bearer " + lastedToken.accessToken,
+          },
+          params: {
+            limit: limit,
+          },
+        })
+        .then((response) => {
+          // handle response data
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
+        });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ data: {}, errors: { message: "artist'id not found." } });
+      return res.status(404).json({ message: error });
     }
   },
-
-  getTrackByTrackName: async (req, res) => {
-    const { trackName } = req.body;
+  getTopTracks: async (req, res) => {
     try {
-      const tracks = await spotifyApi.searchTracks(`${trackName}`);
-      return res.status(200).json({ data: tracks });
+      const limit = 10;
+      const lastedToken = await getTheLastTokenFromDb();
+      axios
+        .get(`${process.env.SPOTIFY_API_BASE_URL}/audio-features`, {
+          headers: {
+            Authorization: "Bearer " + lastedToken.accessToken,
+          },
+          params: {
+            limit: limit,
+            offset: 0,
+            // time_range: "short_term",
+            market: "VN",
+          },
+        })
+        .then((response) => {
+          // handle response data
+          console.log(response.data);
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
+        });
     } catch (error) {
-      return res
-        .status(500)
-        .json({ data: {}, errors: { message: "Track name not found." } });
+      return res.status(404).json({ message: error });
     }
   },
-
-  // GET SONG DETAIL BY SONG ID
-  getSongDetail: async (req, res) => {
-    const { trackId } = res.body;
+  getGenres: async (req, res) => {
     try {
-      const result = await spotifyApi.getTrack(trackId);
-      return res.status(200).json({ data: result.body });
+      const lastedToken = await getTheLastTokenFromDb();
+      axios
+        .get(
+          `${process.env.SPOTIFY_API_BASE_URL}/recommendations/available-genre-seeds`,
+          {
+            headers: {
+              Authorization: "Bearer " + lastedToken.accessToken,
+            },
+          }
+        )
+        .then((response) => {
+          // handle response data
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
+        });
     } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .json({ data: {}, errors: { message: "Track's id not found." } });
+      return res.status(404).json({ message: error });
+    }
+  },
+  getSeveralBrowseCategories: async (req, res) => {
+    try {
+      const lastedToken = await getTheLastTokenFromDb();
+      axios
+        .get(`${process.env.SPOTIFY_API_BASE_URL}/browse/categories`, {
+          headers: {
+            Authorization: "Bearer " + lastedToken.accessToken,
+          },
+          params: {
+            limit: 10,
+            market: "VN",
+          },
+        })
+        .then((response) => {
+          // handle response data
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
+        });
+    } catch (error) {
+      return res.status(404).json({ message: error });
+    }
+  },
+  getSingleBrowseCategory: async (req, res) => {
+    try {
+      const { categoryId } = req.params;
+      const lastedToken = await getTheLastTokenFromDb();
+      axios
+        .get(
+          `${process.env.SPOTIFY_API_BASE_URL}/browse/categories/${categoryId}`,
+          {
+            headers: {
+              Authorization: "Bearer " + lastedToken.accessToken,
+            },
+            params: { market: "VN" },
+          }
+        )
+        .then((response) => {
+          // handle response data
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
+        });
+    } catch (error) {
+      return res.status(404).json({ message: error });
+    }
+  },
+  getCategoryPlaylists: async (req, res) => {
+    try {
+      const { categoryId } = req.params;
+      const lastedToken = await getTheLastTokenFromDb();
+      axios
+        .get(
+          `${process.env.SPOTIFY_API_BASE_URL}/browse/categories/${categoryId}/playlists`,
+          {
+            headers: {
+              Authorization: "Bearer " + lastedToken.accessToken,
+            },
+            params: { limit: 10, market: "VN" },
+          }
+        )
+        .then((response) => {
+          // handle response data
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
+        });
+    } catch (error) {
+      return res.status(404).json({ message: error });
+    }
+  },
+  getPlaylistTracks: async (req, res) => {
+    try {
+      const { playlistId } = req.params;
+      const lastedToken = await getTheLastTokenFromDb();
+      console.log("lastedToken: ", timeCurrent, expiresAt);
+
+      axios
+        .get(`${process.env.SPOTIFY_API_BASE_URL}/playlists/${playlistId}`, {
+          headers: {
+            Authorization: "Bearer " + lastedToken.accessToken,
+          },
+        })
+        .then((response) => {
+          // handle response data
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
+        });
+    } catch (error) {
+      return res.status(404).json({ message: error });
+    }
+  },
+  getTrackById: async (req, res) => {
+    try {
+      const { trackId } = req.params;
+      const lastedToken = await getTheLastTokenFromDb();
+      console.log("lastedToken: ", lastedToken);
+      axios
+        .get(`${process.env.SPOTIFY_API_BASE_URL}/tracks/${trackId}`, {
+          headers: {
+            Authorization: "Bearer " + lastedToken.accessToken,
+          },
+        })
+        .then((response) => {
+          // handle response data
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
+        });
+    } catch (error) {
+      return res.status(404).json({ message: error });
     }
   },
 };
-
-//https://github.com/lethanhvietctt5/react-spotify
-//  getAlbumTracks
-// PORT=8008
-// SPOTIFY_CLIENT_ID=6d6d1aafeb92496fa2cb7c63d95c1494
-// SPOTIFY_CLIENT_SECRET=4a2c1906b6a546f9a141214d3eade304
-// MONGO_URI=mongodb+srv://cmusicdatabase:cmusicdatabase@cluster0.fsdgjel.mongodb.net/?retryWrites=true&w=majority
-
-// getAlbums: async (req, res) => {
-//   // const albums = await spotifyApi.getAlbums();
-
-//   const albums = await spotifyApi.getFeaturedPlaylists({
-//     limit: 10,
-//     offset: 0,
-//     country: "VN",
-//     locale: "sv_VN",
-//   });
-
-//   return res.status(200).json({ data: albums });
-// },
-// getPlaylists: async (req, res) => {
-//   const playLists = await spotifyApi.getPlaylist(["37i9dQZF1DX1vC8WamgJcA"]);
-//   return res.status(200).json({ data: playLists });
-// },
-// // get track detail
+// react-native-spotify-remote
