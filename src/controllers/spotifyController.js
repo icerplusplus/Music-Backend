@@ -343,12 +343,12 @@ export const spotifyController = {
       const id = req.params.id;
       const videoInfo = await ytdl.getInfo(id);
       const audioFormats = ytdl.filterFormats(videoInfo.formats, "audioonly");
-      const audioStream = ytdlDiscord(audioFormats[0].url);
-      res.set({
-        "Content-Type": "audio/mpeg",
-        "Content-Disposition": `attachment; filename="${videoInfo.title}.mp3"`,
+
+      return res.status(200).json({
+        data: {
+          audioUrl: audioFormats[0].url,
+        },
       });
-      audioStream.pipe(res);
     } catch (error) {
       return res.status(404).json({ message: error });
     }
