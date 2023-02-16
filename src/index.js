@@ -17,12 +17,12 @@ const main = async () => {
   // routers
   app.use("/api", header.allowAll, router);
 
-  app.listen(process.env.PORT, () => {
+  app.listen(process.env.PORT || 8617, () => {
     // connect to mongodb server
     mongodbInstance();
 
     console.log(
-      `🚀 CMsuicApi Server is running on port http://localhost:${process.env.PORT}/api ...`
+      `🚀 CMsuicApi Server is running on port http://localhost:${process.env.PORT}/api/ ...`
     );
   });
 };

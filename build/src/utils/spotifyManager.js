@@ -4,12 +4,20 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTopAlbums = exports.getToken = exports.basic = void 0;
+exports.spotifyApi = exports.getTopAlbums = exports.getToken = exports.basic = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _axios = _interopRequireDefault(require("axios"));
 require("dotenv/config");
+var _spotifyWebApiNode = _interopRequireDefault(require("spotify-web-api-node"));
+var spotifyApi = new _spotifyWebApiNode["default"]({
+  clientId: process.env.SPOTIFY_CLIENT_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  redirectUri: "http://localhost:8617/api/callback"
+});
+
 // Endpoint to get a user's profile information
+exports.spotifyApi = spotifyApi;
 var basic = Buffer.from("".concat(process.env.SPOTIFY_CLIENT_ID, ":").concat(process.env.SPOTIFY_CLIENT_SECRET)).toString("base64");
 exports.basic = basic;
 var getToken = /*#__PURE__*/function () {

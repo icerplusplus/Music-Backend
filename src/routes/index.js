@@ -7,11 +7,19 @@ const router = express.Router();
 
 // spotify routers
 router.get("/", spotifyController.spotifyAuthorize);
+router.get("/callback", spotifyController.spotifyCallback);
 router.get(
   "/top-albums",
   spotifyMiddleware.spotifyAuth,
   spotifyController.getTopAlbums
 );
+
+router.get(
+  "/top-artists",
+  spotifyMiddleware.spotifyAuth,
+  spotifyController.getTopArtists
+);
+
 router.get(
   "/album-tracks/:albumId",
   spotifyMiddleware.spotifyAuth,
@@ -55,6 +63,18 @@ router.get(
   "/track/:trackId",
   spotifyMiddleware.spotifyAuth,
   spotifyController.getTrackById
+);
+
+router.get(
+  "/track-player/:id",
+  spotifyMiddleware.spotifyAuth,
+  spotifyController.playTrackWithId
+);
+
+router.get(
+  "/current-devices",
+  spotifyMiddleware.spotifyAuth,
+  spotifyController.getCurrentDevices
 );
 
 // router.get("/callback", spotifyController.setToken);

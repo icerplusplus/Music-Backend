@@ -1,5 +1,12 @@
 import axios from "axios";
 import "dotenv/config";
+import SpotifyWebApi from "spotify-web-api-node";
+
+export const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.SPOTIFY_CLIENT_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  redirectUri: "http://localhost:8617/api/callback",
+});
 
 // Endpoint to get a user's profile information
 export const basic = Buffer.from(

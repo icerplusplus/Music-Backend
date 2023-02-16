@@ -22,10 +22,10 @@ var main = /*#__PURE__*/function () {
 
           // routers
           app.use("/api", _header.header.allowAll, _routes["default"]);
-          app.listen(process.env.PORT, function () {
+          app.listen(process.env.PORT || 8617, function () {
             // connect to mongodb server
             (0, _mongodbInstance.mongodbInstance)();
-            console.log("\uD83D\uDE80 CMsuicApi Server is running on port http://localhost:".concat(process.env.PORT, "/api ..."));
+            console.log("\uD83D\uDE80 CMsuicApi Server is running on port http://localhost:".concat(process.env.PORT, "/api/ ..."));
           });
         case 5:
         case "end":

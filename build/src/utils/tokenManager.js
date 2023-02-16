@@ -46,10 +46,10 @@ var refreshTokenOnServer = /*#__PURE__*/function () {
           _context2.next = 6;
           return _Token["default"].findByIdAndUpdate(lastedToken._id, {
             $set: {
-              accessToken: token.access_token,
-              refreshToken: token.refresh_token || null,
-              expiresIn: token.expires_in,
-              expiresAt: new Date().getTime() + parseInt(token.expires_in) * 1000
+              accessToken: token.access_token || lastedToken.accessToken,
+              refreshToken: token.refresh_token || lastedToken.refreshToken,
+              expiresIn: token.expires_in || 3600,
+              expiresAt: new Date().getTime() + parseInt(token.expires_in || 3600) * 1000
             }
           }, {
             "new": true

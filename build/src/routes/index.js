@@ -13,7 +13,9 @@ var router = _express["default"].Router();
 
 // spotify routers
 router.get("/", _spotifyController.spotifyController.spotifyAuthorize);
+router.get("/callback", _spotifyController.spotifyController.spotifyCallback);
 router.get("/top-albums", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getTopAlbums);
+router.get("/top-artists", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getTopArtists);
 router.get("/album-tracks/:albumId", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getAlbumTracks);
 router.get("/top-tracks", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getTopTracks);
 router.get("/genres", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getGenres);
