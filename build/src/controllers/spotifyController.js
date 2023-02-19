@@ -12,6 +12,9 @@ require("dotenv/config");
 var _constant = require("../utils/constant");
 var _spotifyManager = require("../utils/spotifyManager");
 var _tokenManager = require("../utils/tokenManager");
+var _ytdlCore = _interopRequireDefault(require("ytdl-core"));
+var _ytdlCoreDiscord = _interopRequireDefault(require("ytdl-core-discord"));
+var _ytSearch = _interopRequireDefault(require("yt-search"));
 var spotifyController = {
   spotifyCallback: function () {
     var _spotifyCallback = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
@@ -196,10 +199,11 @@ var spotifyController = {
           case 0:
             _context5.prev = 0;
             albumId = req.params.albumId;
+            console.log("albumId: ", albumId);
             limit = 10;
-            _context5.next = 5;
+            _context5.next = 6;
             return (0, _tokenManager.getTheLastTokenFromDb)();
-          case 5:
+          case 6:
             lastedToken = _context5.sent;
             _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/albums/").concat(albumId, "/tracks"), {
               headers: {
@@ -219,19 +223,19 @@ var spotifyController = {
                 message: error
               });
             });
-            _context5.next = 12;
+            _context5.next = 13;
             break;
-          case 9:
-            _context5.prev = 9;
+          case 10:
+            _context5.prev = 10;
             _context5.t0 = _context5["catch"](0);
             return _context5.abrupt("return", res.status(404).json({
               message: _context5.t0
             }));
-          case 12:
+          case 13:
           case "end":
             return _context5.stop();
         }
-      }, _callee5, null, [[0, 9]]);
+      }, _callee5, null, [[0, 10]]);
     }));
     function getAlbumTracks(_x9, _x10) {
       return _getAlbumTracks.apply(this, arguments);
@@ -293,23 +297,32 @@ var spotifyController = {
     }
     return getTopTracks;
   }(),
-  getGenres: function () {
-    var _getGenres = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
-      var lastedToken;
+  getFeaturedPlaylists: function () {
+    var _getFeaturedPlaylists = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
+      var limit, offset, lastedToken;
       return _regenerator["default"].wrap(function _callee7$(_context7) {
         while (1) switch (_context7.prev = _context7.next) {
           case 0:
             _context7.prev = 0;
-            _context7.next = 3;
+            console.log(req.query.limit);
+            limit = req.query.limit || 20;
+            offset = 0;
+            _context7.next = 6;
             return (0, _tokenManager.getTheLastTokenFromDb)();
-          case 3:
+          case 6:
             lastedToken = _context7.sent;
-            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/recommendations/available-genre-seeds"), {
+            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/browse/featured-playlists"), {
               headers: {
                 Authorization: "Bearer " + lastedToken.accessToken
+              },
+              params: {
+                limit: limit,
+                offset: offset,
+                country: "VN"
               }
             }).then(function (response) {
               // handle response data
+              console.log(response.data);
               return res.status(200).json({
                 data: response.data
               });
@@ -319,27 +332,27 @@ var spotifyController = {
                 message: error
               });
             });
-            _context7.next = 10;
+            _context7.next = 13;
             break;
-          case 7:
-            _context7.prev = 7;
+          case 10:
+            _context7.prev = 10;
             _context7.t0 = _context7["catch"](0);
             return _context7.abrupt("return", res.status(404).json({
               message: _context7.t0
             }));
-          case 10:
+          case 13:
           case "end":
             return _context7.stop();
         }
-      }, _callee7, null, [[0, 7]]);
+      }, _callee7, null, [[0, 10]]);
     }));
-    function getGenres(_x13, _x14) {
-      return _getGenres.apply(this, arguments);
+    function getFeaturedPlaylists(_x13, _x14) {
+      return _getFeaturedPlaylists.apply(this, arguments);
     }
-    return getGenres;
+    return getFeaturedPlaylists;
   }(),
-  getSeveralBrowseCategories: function () {
-    var _getSeveralBrowseCategories = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
+  getGenres: function () {
+    var _getGenres = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
       var lastedToken;
       return _regenerator["default"].wrap(function _callee8$(_context8) {
         while (1) switch (_context8.prev = _context8.next) {
@@ -349,13 +362,9 @@ var spotifyController = {
             return (0, _tokenManager.getTheLastTokenFromDb)();
           case 3:
             lastedToken = _context8.sent;
-            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/browse/categories"), {
+            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/recommendations/available-genre-seeds"), {
               headers: {
                 Authorization: "Bearer " + lastedToken.accessToken
-              },
-              params: {
-                limit: 10,
-                market: "VN"
               }
             }).then(function (response) {
               // handle response data
@@ -382,28 +391,28 @@ var spotifyController = {
         }
       }, _callee8, null, [[0, 7]]);
     }));
-    function getSeveralBrowseCategories(_x15, _x16) {
-      return _getSeveralBrowseCategories.apply(this, arguments);
+    function getGenres(_x15, _x16) {
+      return _getGenres.apply(this, arguments);
     }
-    return getSeveralBrowseCategories;
+    return getGenres;
   }(),
-  getSingleBrowseCategory: function () {
-    var _getSingleBrowseCategory = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(req, res) {
-      var categoryId, lastedToken;
+  getSeveralBrowseCategories: function () {
+    var _getSeveralBrowseCategories = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(req, res) {
+      var lastedToken;
       return _regenerator["default"].wrap(function _callee9$(_context9) {
         while (1) switch (_context9.prev = _context9.next) {
           case 0:
             _context9.prev = 0;
-            categoryId = req.params.categoryId;
-            _context9.next = 4;
+            _context9.next = 3;
             return (0, _tokenManager.getTheLastTokenFromDb)();
-          case 4:
+          case 3:
             lastedToken = _context9.sent;
-            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/browse/categories/").concat(categoryId), {
+            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/browse/categories"), {
               headers: {
                 Authorization: "Bearer " + lastedToken.accessToken
               },
               params: {
+                limit: 10,
                 market: "VN"
               }
             }).then(function (response) {
@@ -417,27 +426,27 @@ var spotifyController = {
                 message: error
               });
             });
-            _context9.next = 11;
+            _context9.next = 10;
             break;
-          case 8:
-            _context9.prev = 8;
+          case 7:
+            _context9.prev = 7;
             _context9.t0 = _context9["catch"](0);
             return _context9.abrupt("return", res.status(404).json({
               message: _context9.t0
             }));
-          case 11:
+          case 10:
           case "end":
             return _context9.stop();
         }
-      }, _callee9, null, [[0, 8]]);
+      }, _callee9, null, [[0, 7]]);
     }));
-    function getSingleBrowseCategory(_x17, _x18) {
-      return _getSingleBrowseCategory.apply(this, arguments);
+    function getSeveralBrowseCategories(_x17, _x18) {
+      return _getSeveralBrowseCategories.apply(this, arguments);
     }
-    return getSingleBrowseCategory;
+    return getSeveralBrowseCategories;
   }(),
-  getCategoryPlaylists: function () {
-    var _getCategoryPlaylists = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(req, res) {
+  getSingleBrowseCategory: function () {
+    var _getSingleBrowseCategory = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(req, res) {
       var categoryId, lastedToken;
       return _regenerator["default"].wrap(function _callee10$(_context10) {
         while (1) switch (_context10.prev = _context10.next) {
@@ -448,12 +457,11 @@ var spotifyController = {
             return (0, _tokenManager.getTheLastTokenFromDb)();
           case 4:
             lastedToken = _context10.sent;
-            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/browse/categories/").concat(categoryId, "/playlists"), {
+            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/browse/categories/").concat(categoryId), {
               headers: {
                 Authorization: "Bearer " + lastedToken.accessToken
               },
               params: {
-                limit: 10,
                 market: "VN"
               }
             }).then(function (response) {
@@ -481,28 +489,30 @@ var spotifyController = {
         }
       }, _callee10, null, [[0, 8]]);
     }));
-    function getCategoryPlaylists(_x19, _x20) {
-      return _getCategoryPlaylists.apply(this, arguments);
+    function getSingleBrowseCategory(_x19, _x20) {
+      return _getSingleBrowseCategory.apply(this, arguments);
     }
-    return getCategoryPlaylists;
+    return getSingleBrowseCategory;
   }(),
-  getPlaylistTracks: function () {
-    var _getPlaylistTracks = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(req, res) {
-      var playlistId, lastedToken;
+  getCategoryPlaylists: function () {
+    var _getCategoryPlaylists = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(req, res) {
+      var categoryId, lastedToken;
       return _regenerator["default"].wrap(function _callee11$(_context11) {
         while (1) switch (_context11.prev = _context11.next) {
           case 0:
             _context11.prev = 0;
-            playlistId = req.params.playlistId;
+            categoryId = req.params.categoryId;
             _context11.next = 4;
             return (0, _tokenManager.getTheLastTokenFromDb)();
           case 4:
             lastedToken = _context11.sent;
-            // console.log("lastedToken: ", timeCurrent, expiresAt);
-
-            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/playlists/").concat(playlistId), {
+            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/browse/categories/").concat(categoryId, "/playlists"), {
               headers: {
                 Authorization: "Bearer " + lastedToken.accessToken
+              },
+              params: {
+                limit: 10,
+                market: "VN"
               }
             }).then(function (response) {
               // handle response data
@@ -529,23 +539,75 @@ var spotifyController = {
         }
       }, _callee11, null, [[0, 8]]);
     }));
-    function getPlaylistTracks(_x21, _x22) {
+    function getCategoryPlaylists(_x21, _x22) {
+      return _getCategoryPlaylists.apply(this, arguments);
+    }
+    return getCategoryPlaylists;
+  }(),
+  getPlaylistTracks: function () {
+    var _getPlaylistTracks = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(req, res) {
+      var playlistId, limit, lastedToken;
+      return _regenerator["default"].wrap(function _callee12$(_context12) {
+        while (1) switch (_context12.prev = _context12.next) {
+          case 0:
+            _context12.prev = 0;
+            playlistId = req.params.playlistId;
+            limit = 10;
+            _context12.next = 5;
+            return (0, _tokenManager.getTheLastTokenFromDb)();
+          case 5:
+            lastedToken = _context12.sent;
+            // console.log("lastedToken: ", timeCurrent, expiresAt);
+
+            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/playlists/").concat(playlistId, "/tracks"), {
+              headers: {
+                Authorization: "Bearer " + lastedToken.accessToken
+              },
+              params: {
+                limit: limit
+              }
+            }).then(function (response) {
+              // handle response data
+              return res.status(200).json({
+                data: response.data
+              });
+            })["catch"](function (error) {
+              // handle error
+              return res.status(404).json({
+                message: error
+              });
+            });
+            _context12.next = 12;
+            break;
+          case 9:
+            _context12.prev = 9;
+            _context12.t0 = _context12["catch"](0);
+            return _context12.abrupt("return", res.status(404).json({
+              message: _context12.t0
+            }));
+          case 12:
+          case "end":
+            return _context12.stop();
+        }
+      }, _callee12, null, [[0, 9]]);
+    }));
+    function getPlaylistTracks(_x23, _x24) {
       return _getPlaylistTracks.apply(this, arguments);
     }
     return getPlaylistTracks;
   }(),
   getTrackById: function () {
-    var _getTrackById = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(req, res) {
+    var _getTrackById = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(req, res) {
       var trackId, lastedToken;
-      return _regenerator["default"].wrap(function _callee12$(_context12) {
-        while (1) switch (_context12.prev = _context12.next) {
+      return _regenerator["default"].wrap(function _callee13$(_context13) {
+        while (1) switch (_context13.prev = _context13.next) {
           case 0:
-            _context12.prev = 0;
+            _context13.prev = 0;
             trackId = req.params.trackId;
-            _context12.next = 4;
+            _context13.next = 4;
             return (0, _tokenManager.getTheLastTokenFromDb)();
           case 4:
-            lastedToken = _context12.sent;
+            lastedToken = _context13.sent;
             _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/tracks/").concat(trackId), {
               headers: {
                 Authorization: "Bearer " + lastedToken.accessToken
@@ -564,25 +626,132 @@ var spotifyController = {
                 message: error
               });
             });
-            _context12.next = 11;
+            _context13.next = 11;
             break;
           case 8:
-            _context12.prev = 8;
-            _context12.t0 = _context12["catch"](0);
-            return _context12.abrupt("return", res.status(404).json({
-              message: _context12.t0
+            _context13.prev = 8;
+            _context13.t0 = _context13["catch"](0);
+            return _context13.abrupt("return", res.status(404).json({
+              message: _context13.t0
             }));
           case 11:
           case "end":
-            return _context12.stop();
+            return _context13.stop();
         }
-      }, _callee12, null, [[0, 8]]);
+      }, _callee13, null, [[0, 8]]);
     }));
-    function getTrackById(_x23, _x24) {
+    function getTrackById(_x25, _x26) {
       return _getTrackById.apply(this, arguments);
     }
     return getTrackById;
+  }(),
+  getCurrentDevices: function () {
+    var _getCurrentDevices = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(req, res) {
+      var lastedToken;
+      return _regenerator["default"].wrap(function _callee14$(_context14) {
+        while (1) switch (_context14.prev = _context14.next) {
+          case 0:
+            _context14.prev = 0;
+            _context14.next = 3;
+            return (0, _tokenManager.getTheLastTokenFromDb)();
+          case 3:
+            lastedToken = _context14.sent;
+            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/me/player/devices"), {
+              headers: {
+                Authorization: "Bearer " + lastedToken.accessToken
+              }
+            }).then(function (response) {
+              // handle response data
+              return res.status(200).json({
+                data: response.data
+              });
+            })["catch"](function (error) {
+              // handle error
+              return res.status(404).json({
+                message: error
+              });
+            });
+            _context14.next = 10;
+            break;
+          case 7:
+            _context14.prev = 7;
+            _context14.t0 = _context14["catch"](0);
+            return _context14.abrupt("return", res.status(404).json({
+              message: _context14.t0
+            }));
+          case 10:
+          case "end":
+            return _context14.stop();
+        }
+      }, _callee14, null, [[0, 7]]);
+    }));
+    function getCurrentDevices(_x27, _x28) {
+      return _getCurrentDevices.apply(this, arguments);
+    }
+    return getCurrentDevices;
+  }(),
+  playTrackWithUrl: function () {
+    var _playTrackWithUrl = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee16(req, res) {
+      var name;
+      return _regenerator["default"].wrap(function _callee16$(_context16) {
+        while (1) switch (_context16.prev = _context16.next) {
+          case 0:
+            _context16.prev = 0;
+            name = req.params.name;
+            (0, _ytSearch["default"])(name, /*#__PURE__*/function () {
+              var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee15(err, result) {
+                var video, videoInfo, audioFormats;
+                return _regenerator["default"].wrap(function _callee15$(_context15) {
+                  while (1) switch (_context15.prev = _context15.next) {
+                    case 0:
+                      if (!err) {
+                        _context15.next = 5;
+                        break;
+                      }
+                      console.error(err);
+                      res.status(500).send("Error searching YouTube");
+                      _context15.next = 11;
+                      break;
+                    case 5:
+                      video = result.videos[0];
+                      _context15.next = 8;
+                      return _ytdlCore["default"].getInfo(video.videoId);
+                    case 8:
+                      videoInfo = _context15.sent;
+                      audioFormats = _ytdlCoreDiscord["default"].filterFormats(videoInfo.formats, "audioonly");
+                      return _context15.abrupt("return", res.status(200).json({
+                        data: {
+                          audioUrl: audioFormats[0].url
+                        }
+                      }));
+                    case 11:
+                    case "end":
+                      return _context15.stop();
+                  }
+                }, _callee15);
+              }));
+              return function (_x31, _x32) {
+                return _ref.apply(this, arguments);
+              };
+            }());
+            _context16.next = 8;
+            break;
+          case 5:
+            _context16.prev = 5;
+            _context16.t0 = _context16["catch"](0);
+            return _context16.abrupt("return", res.status(404).json({
+              message: _context16.t0
+            }));
+          case 8:
+          case "end":
+            return _context16.stop();
+        }
+      }, _callee16, null, [[0, 5]]);
+    }));
+    function playTrackWithUrl(_x29, _x30) {
+      return _playTrackWithUrl.apply(this, arguments);
+    }
+    return playTrackWithUrl;
   }()
 };
-// react-native-spotify-remote
 exports.spotifyController = spotifyController;

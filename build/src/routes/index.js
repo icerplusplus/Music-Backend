@@ -18,6 +18,7 @@ router.get("/top-albums", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spo
 router.get("/top-artists", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getTopArtists);
 router.get("/album-tracks/:albumId", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getAlbumTracks);
 router.get("/top-tracks", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getTopTracks);
+router.get("/featured-playlists", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getFeaturedPlaylists);
 router.get("/genres", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getGenres);
 router.get("/several-browse-categories", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getSeveralBrowseCategories);
 
@@ -26,6 +27,8 @@ router.get("/single-browse-category/:categoryId", _spotifyMiddleware.spotifyMidd
 router.get("/category-playlists/:categoryId", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getCategoryPlaylists);
 router.get("/playlist-tracks/:playlistId", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getPlaylistTracks);
 router.get("/track/:trackId", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getTrackById);
+router.get("/track-player/:name", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.playTrackWithUrl);
+router.get("/current-devices", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getCurrentDevices);
 
 // router.get("/callback", spotifyController.setToken);
 // router.get("/top-playlists", spotifyController.getTopPlaylists);
