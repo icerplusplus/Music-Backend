@@ -31,6 +31,13 @@ router.get(
   spotifyMiddleware.spotifyAuth,
   spotifyController.getTopTracks
 );
+
+router.get(
+  "/featured-playlists",
+  spotifyMiddleware.spotifyAuth,
+  spotifyController.getFeaturedPlaylists
+);
+
 router.get(
   "/genres",
   spotifyMiddleware.spotifyAuth,
@@ -66,9 +73,9 @@ router.get(
 );
 
 router.get(
-  "/track-player/:id",
+  "/track-player/:name",
   spotifyMiddleware.spotifyAuth,
-  spotifyController.playTrackWithId
+  spotifyController.playTrackWithUrl
 );
 
 router.get(

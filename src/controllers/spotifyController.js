@@ -8,6 +8,7 @@ import {
 } from "../utils/tokenManager";
 import ytdl from "ytdl-core";
 import ytdlDiscord from "ytdl-core-discord";
+import search from "yt-search";
 
 export const spotifyController = {
   spotifyCallback: async (req, res) => {
@@ -107,6 +108,7 @@ export const spotifyController = {
   getAlbumTracks: async (req, res) => {
     try {
       const { albumId } = req.params;
+      console.log("albumId: ", albumId);
       const limit = 10;
       const lastedToken = await getTheLastTokenFromDb();
       axios
@@ -151,6 +153,37 @@ export const spotifyController = {
             },
           }
         )
+        .then((response) => {
+          // handle response data
+          console.log(response.data);
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
+        });
+    } catch (error) {
+      return res.status(404).json({ message: error });
+    }
+  },
+  getFeaturedPlaylists: async (req, res) => {
+    try {
+      console.log(req.query.limit);
+      const limit = req.query.limit || 20;
+      const offset = 0;
+      const lastedToken = await getTheLastTokenFromDb();
+
+      axios
+        .get(`${process.env.SPOTIFY_API_BASE_URL}/browse/featured-playlists`, {
+          headers: {
+            Authorization: "Bearer " + lastedToken.accessToken,
+          },
+          params: {
+            limit,
+            offset,
+            country: "VN",
+          },
+        })
         .then((response) => {
           // handle response data
           console.log(response.data);
@@ -268,15 +301,22 @@ export const spotifyController = {
   getPlaylistTracks: async (req, res) => {
     try {
       const { playlistId } = req.params;
+      const limit = 10;
       const lastedToken = await getTheLastTokenFromDb();
       // console.log("lastedToken: ", timeCurrent, expiresAt);
 
       axios
-        .get(`${process.env.SPOTIFY_API_BASE_URL}/playlists/${playlistId}`, {
-          headers: {
-            Authorization: "Bearer " + lastedToken.accessToken,
-          },
-        })
+        .get(
+          `${process.env.SPOTIFY_API_BASE_URL}/playlists/${playlistId}/tracks`,
+          {
+            headers: {
+              Authorization: "Bearer " + lastedToken.accessToken,
+            },
+            params: {
+              limit,
+            },
+          }
+        )
         .then((response) => {
           // handle response data
           return res.status(200).json({ data: response.data });
@@ -337,21 +377,32 @@ export const spotifyController = {
       return res.status(404).json({ message: error });
     }
   },
-  playTrackWithId: async (req, res) => {
+  playTrackWithUrl: async (req, res) => {
     // convert youtube video to mp3 audio
     try {
-      const id = req.params.id;
-      const videoInfo = await ytdl.getInfo(id);
-      const audioFormats = ytdl.filterFormats(videoInfo.formats, "audioonly");
+      const name = req.params.name;
+      search(name, async (err, result) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error searching YouTube");
+        } else {
+          const video = result.videos[0];
 
-      return res.status(200).json({
-        data: {
-          audioUrl: audioFormats[0].url,
-        },
+          const videoInfo = await ytdl.getInfo(video.videoId);
+          const audioFormats = ytdlDiscord.filterFormats(
+            videoInfo.formats,
+            "audioonly"
+          );
+
+          return res.status(200).json({
+            data: {
+              audioUrl: audioFormats[0].url,
+            },
+          });
+        }
       });
     } catch (error) {
       return res.status(404).json({ message: error });
     }
   },
 };
-// react-native-spotify-remote
