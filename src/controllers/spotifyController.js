@@ -468,11 +468,11 @@ export const spotifyController = {
             if (responses.length === tracks.length) {
               res.status(200).json({ data: data });
             }
-          }, 5000);
+          }, 6500);
         })
         .catch((e) => {
           // handle errors
-          console.log("Error while fetching responses");
+
           res.status(404).json({ message: "Error while fetching responses" });
         });
     } catch (error) {

@@ -876,10 +876,10 @@ var spotifyController = {
                     data: data
                   });
                 }
-              }, 5000);
+              }, 6500);
             })["catch"](function (e) {
               // handle errors
-              console.log("Error while fetching responses");
+
               res.status(404).json({
                 message: "Error while fetching responses"
               });
