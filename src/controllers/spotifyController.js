@@ -449,6 +449,7 @@ export const spotifyController = {
               id: item.id,
               name: item.name,
               audioUrl: audioFormats[0].url,
+              audioObject: audioFormats[0].approxDurationMs,
             });
 
             return audioFormats[0].url;
