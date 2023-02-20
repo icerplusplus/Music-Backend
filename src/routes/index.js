@@ -84,6 +84,12 @@ router.get(
   spotifyController.getCurrentDevices
 );
 
+router.post(
+  "/track-urls",
+  spotifyMiddleware.spotifyAuth,
+  spotifyController.getTrackUrlByNames
+);
+
 // router.get("/callback", spotifyController.setToken);
 // router.get("/top-playlists", spotifyController.getTopPlaylists);
 // router.get("/playlist/:playlistId", spotifyController.getTrackByPlaylistId);

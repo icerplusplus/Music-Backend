@@ -9,6 +9,28 @@ import {
 import ytdl from "ytdl-core";
 import ytdlDiscord from "ytdl-core-discord";
 import search from "yt-search";
+import { Promise } from "bluebird";
+
+const getUrlFromTrackName = async (name) => {
+  await search(name, async (err, result) => {
+    if (err) {
+      console.log("err: ", err);
+      return null;
+    } else {
+      const video = result.videos[0];
+
+      const videoInfo = await ytdl.getInfo(video.videoId);
+      const audioFormats = await ytdlDiscord.filterFormats(
+        videoInfo.formats,
+        "audioonly"
+      );
+
+      console.log("audioFormats[0].url: ", audioFormats[0].url);
+
+      return audioFormats[0].url;
+    }
+  });
+};
 
 export const spotifyController = {
   spotifyCallback: async (req, res) => {
@@ -303,7 +325,6 @@ export const spotifyController = {
       const { playlistId } = req.params;
       const limit = 10;
       const lastedToken = await getTheLastTokenFromDb();
-      // console.log("lastedToken: ", timeCurrent, expiresAt);
 
       axios
         .get(
@@ -401,6 +422,59 @@ export const spotifyController = {
           });
         }
       });
+    } catch (error) {
+      return res.status(404).json({ message: error });
+    }
+  },
+  getTrackUrlByNames: async (req, res) => {
+    try {
+      const tracks = req.body.tracks;
+      let data = [];
+
+      const promises = tracks.map(async (item) => {
+        return search(item.name, async (err, result) => {
+          if (err) {
+            console.log("err: ", err);
+            return "";
+          } else {
+            const video = result.videos[0];
+
+            const videoInfo = await ytdl.getInfo(video.videoId);
+            const audioFormats = await ytdlDiscord.filterFormats(
+              videoInfo.formats,
+              "audioonly"
+            );
+
+            data.push({
+              id: item.id,
+              name: item.name,
+              audioUrl: audioFormats[0].url,
+            });
+
+            return audioFormats[0].url;
+          }
+        }); // Return the promise of each url
+      });
+
+      // Now that our array of promises are set up, use Promise.all to
+      // execute them all in parallel
+
+      await Promise.all(promises)
+        .then((responses) => {
+          // Do something with responses
+          // array of responses in the order of urls
+          // eg: [ { resp1 }, { resp2 }, ...]
+          setTimeout(() => {
+            if (responses.length === tracks.length) {
+              res.status(200).json({ data: data });
+            }
+          }, 5000);
+        })
+        .catch((e) => {
+          // handle errors
+          console.log("Error while fetching responses");
+          res.status(404).json({ message: "Error while fetching responses" });
+        });
     } catch (error) {
       return res.status(404).json({ message: error });
     }

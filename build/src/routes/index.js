@@ -29,6 +29,7 @@ router.get("/playlist-tracks/:playlistId", _spotifyMiddleware.spotifyMiddleware.
 router.get("/track/:trackId", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getTrackById);
 router.get("/track-player/:name", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.playTrackWithUrl);
 router.get("/current-devices", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getCurrentDevices);
+router.post("/track-urls", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getTrackUrlByNames);
 
 // router.get("/callback", spotifyController.setToken);
 // router.get("/top-playlists", spotifyController.getTopPlaylists);
