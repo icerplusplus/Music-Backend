@@ -11,27 +11,6 @@ import ytdlDiscord from "ytdl-core-discord";
 import search from "yt-search";
 import { Promise } from "bluebird";
 
-const getUrlFromTrackName = async (name) => {
-  await search(name, async (err, result) => {
-    if (err) {
-      console.log("err: ", err);
-      return null;
-    } else {
-      const video = result.videos[0];
-
-      const videoInfo = await ytdl.getInfo(video.videoId);
-      const audioFormats = await ytdlDiscord.filterFormats(
-        videoInfo.formats,
-        "audioonly"
-      );
-
-      console.log("audioFormats[0].url: ", audioFormats[0].url);
-
-      return audioFormats[0].url;
-    }
-  });
-};
-
 export const spotifyController = {
   spotifyCallback: async (req, res) => {
     try {
@@ -63,18 +42,6 @@ export const spotifyController = {
         true
       );
       res.redirect(authorizeUrl);
-
-      // const response = await getToken();
-      // return res.status(200).json({
-      //   data: {
-      //     token: {
-      //       access_token: response.access_token,
-      //       expiresIn: response.expires_in,
-      //       expiresAt:
-      //         new Date().getTime() + parseInt(response?.expires_in) * 1000,
-      //     },
-      //   },
-      // });
     } catch (error) {
       return res.status(404).json({ message: error });
     }
@@ -130,7 +97,7 @@ export const spotifyController = {
   getAlbumTracks: async (req, res) => {
     try {
       const { albumId } = req.params;
-      console.log("albumId: ", albumId);
+
       const limit = 10;
       const lastedToken = await getTheLastTokenFromDb();
       axios
@@ -177,7 +144,6 @@ export const spotifyController = {
         )
         .then((response) => {
           // handle response data
-          console.log(response.data);
           return res.status(200).json({ data: response.data });
         })
         .catch((error) => {
@@ -208,7 +174,6 @@ export const spotifyController = {
         })
         .then((response) => {
           // handle response data
-          console.log(response.data);
           return res.status(200).json({ data: response.data });
         })
         .catch((error) => {
