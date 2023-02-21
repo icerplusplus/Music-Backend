@@ -818,7 +818,7 @@ var spotifyController = {
                     case 0:
                       return _context20.abrupt("return", (0, _ytSearch["default"])(item.name, /*#__PURE__*/function () {
                         var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee19(err, result) {
-                          var video, videoInfo, audioFormats;
+                          var _audioFormats$, _audioFormats$2, _audioFormats$3, _audioFormats$4, _audioFormats$5, _audioFormats$6, video, videoInfo, audioFormats;
                           return _regenerator["default"].wrap(function _callee19$(_context19) {
                             while (1) switch (_context19.prev = _context19.next) {
                               case 0:
@@ -841,9 +841,10 @@ var spotifyController = {
                                 data.push({
                                   id: item.id,
                                   name: item.name,
-                                  audioUrl: audioFormats[0].url
+                                  audioUrl: ((_audioFormats$ = audioFormats[0]) === null || _audioFormats$ === void 0 ? void 0 : _audioFormats$.url) || ((_audioFormats$2 = audioFormats[1]) === null || _audioFormats$2 === void 0 ? void 0 : _audioFormats$2.url),
+                                  durationMs: ((_audioFormats$3 = audioFormats[0]) === null || _audioFormats$3 === void 0 ? void 0 : _audioFormats$3.approxDurationMs) || ((_audioFormats$4 = audioFormats[1]) === null || _audioFormats$4 === void 0 ? void 0 : _audioFormats$4.approxDurationMs)
                                 });
-                                return _context19.abrupt("return", audioFormats[0].url);
+                                return _context19.abrupt("return", ((_audioFormats$5 = audioFormats[0]) === null || _audioFormats$5 === void 0 ? void 0 : _audioFormats$5.url) || ((_audioFormats$6 = audioFormats[1]) === null || _audioFormats$6 === void 0 ? void 0 : _audioFormats$6.url));
                               case 14:
                               case "end":
                                 return _context19.stop();
