@@ -448,11 +448,13 @@ export const spotifyController = {
             data.push({
               id: item.id,
               name: item.name,
-              audioUrl: audioFormats[0].url,
-              durationMs: audioFormats[0].approxDurationMs,
+              audioUrl: audioFormats[0]?.url || audioFormats[1]?.url,
+              durationMs:
+                audioFormats[0]?.approxDurationMs ||
+                audioFormats[1]?.approxDurationMs,
             });
 
-            return audioFormats[0].url;
+            return audioFormats[0]?.url || audioFormats[1]?.url;
           }
         }); // Return the promise of each url
       });
