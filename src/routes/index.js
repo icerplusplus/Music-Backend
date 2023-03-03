@@ -90,6 +90,18 @@ router.post(
   spotifyController.getTrackUrlByNames
 );
 
+// artist
+router.get(
+  "/artist/:id",
+  spotifyMiddleware.spotifyAuth,
+  spotifyController.getArtistById
+);
+router.get(
+  "/top-tracks-of-artist/:id",
+  spotifyMiddleware.spotifyAuth,
+  spotifyController.getTopTracksByArtistId
+);
+
 // router.get("/callback", spotifyController.setToken);
 // router.get("/top-playlists", spotifyController.getTopPlaylists);
 // router.get("/playlist/:playlistId", spotifyController.getTrackByPlaylistId);

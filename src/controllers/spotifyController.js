@@ -52,13 +52,13 @@ export const spotifyController = {
 
       axios
         .get(
-          `${process.env.SPOTIFY_API_BASE_URL}/browse/new-releases?limit=10`,
+          `${process.env.SPOTIFY_API_BASE_URL}/browse/new-releases?limit=10&country=VN`,
           {
             headers: {
               Authorization: `Bearer ${lastedToken.accessToken}`,
             },
             params: {
-              market: "VN",
+              // market: "VN",
             },
           }
         )
@@ -156,7 +156,6 @@ export const spotifyController = {
   },
   getFeaturedPlaylists: async (req, res) => {
     try {
-      console.log(req.query.limit);
       const limit = req.query.limit || 20;
       const offset = 0;
       const lastedToken = await getTheLastTokenFromDb();
@@ -397,7 +396,7 @@ export const spotifyController = {
       let data = [];
 
       const promises = tracks.map(async (item) => {
-        return search(item.name, async (err, result) => {
+        return await search(item.search, async (err, result) => {
           if (err) {
             console.log("err: ", err);
             return "";
@@ -405,21 +404,28 @@ export const spotifyController = {
             const video = result.videos[0];
 
             const videoInfo = await ytdl.getInfo(video.videoId);
+            if (!videoInfo.formats) {
+              console.log("err formats: ", item.name);
+            }
             const audioFormats = await ytdlDiscord.filterFormats(
               videoInfo.formats,
               "audioonly"
             );
 
             data.push({
-              id: item.id,
-              name: item.name,
+              ...item,
               audioUrl: audioFormats[0]?.url || audioFormats[1]?.url,
               durationMs:
                 audioFormats[0]?.approxDurationMs ||
-                audioFormats[1]?.approxDurationMs,
+                audioFormats[1]?.approxDurationMs ||
+                audioFormats[2]?.approxDurationMs,
             });
 
-            return audioFormats[0]?.url || audioFormats[1]?.url;
+            return (
+              audioFormats[0]?.url ||
+              audioFormats[1]?.url ||
+              audioFormats[2]?.url
+            );
           }
         }); // Return the promise of each url
       });
@@ -436,12 +442,66 @@ export const spotifyController = {
             if (responses.length === tracks.length) {
               res.status(200).json({ data: data });
             }
-          }, 6500);
+          }, 7000);
         })
         .catch((e) => {
           // handle errors
 
           res.status(404).json({ message: "Error while fetching responses" });
+        });
+    } catch (error) {
+      return res.status(404).json({ message: error });
+    }
+  },
+
+  // artist
+  getArtistById: async (req, res) => {
+    try {
+      const id = req.params.id;
+      const lastedToken = await getTheLastTokenFromDb();
+
+      axios
+        .get(`${process.env.SPOTIFY_API_BASE_URL}/artists/${id}`, {
+          headers: {
+            Authorization: "Bearer " + lastedToken.accessToken,
+          },
+          params: {
+            market: "VN",
+          },
+        })
+        .then((response) => {
+          // handle response data
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
+        });
+    } catch (error) {
+      return res.status(404).json({ message: error });
+    }
+  },
+  getTopTracksByArtistId: async (req, res) => {
+    try {
+      const id = req.params.id;
+      const lastedToken = await getTheLastTokenFromDb();
+
+      axios
+        .get(`${process.env.SPOTIFY_API_BASE_URL}/artists/${id}/top-tracks`, {
+          headers: {
+            Authorization: "Bearer " + lastedToken.accessToken,
+          },
+          params: {
+            market: "VN",
+          },
+        })
+        .then((response) => {
+          // handle response data
+          return res.status(200).json({ data: response.data });
+        })
+        .catch((error) => {
+          // handle error
+          return res.status(404).json({ message: error });
         });
     } catch (error) {
       return res.status(404).json({ message: error });
