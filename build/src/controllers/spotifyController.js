@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.spotifyController = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _axios = _interopRequireDefault(require("axios"));
 require("dotenv/config");
@@ -16,6 +17,8 @@ var _ytdlCore = _interopRequireDefault(require("ytdl-core"));
 var _ytdlCoreDiscord = _interopRequireDefault(require("ytdl-core-discord"));
 var _ytSearch = _interopRequireDefault(require("yt-search"));
 var _bluebird = require("bluebird");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var spotifyController = {
   spotifyCallback: function () {
     var _spotifyCallback = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
@@ -100,12 +103,12 @@ var spotifyController = {
             return (0, _tokenManager.getTheLastTokenFromDb)();
           case 3:
             lastedToken = _context3.sent;
-            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/browse/new-releases?limit=10"), {
+            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/browse/new-releases?limit=10&country=VN"), {
               headers: {
                 Authorization: "Bearer ".concat(lastedToken.accessToken)
               },
               params: {
-                market: "VN"
+                // market: "VN",
               }
             }).then(function (response) {
               return res.status(200).json({
@@ -291,12 +294,11 @@ var spotifyController = {
         while (1) switch (_context7.prev = _context7.next) {
           case 0:
             _context7.prev = 0;
-            console.log(req.query.limit);
             limit = req.query.limit || 20;
             offset = 0;
-            _context7.next = 6;
+            _context7.next = 5;
             return (0, _tokenManager.getTheLastTokenFromDb)();
-          case 6:
+          case 5:
             lastedToken = _context7.sent;
             _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/browse/featured-playlists"), {
               headers: {
@@ -318,19 +320,19 @@ var spotifyController = {
                 message: error
               });
             });
-            _context7.next = 13;
+            _context7.next = 12;
             break;
-          case 10:
-            _context7.prev = 10;
+          case 9:
+            _context7.prev = 9;
             _context7.t0 = _context7["catch"](0);
             return _context7.abrupt("return", res.status(404).json({
               message: _context7.t0
             }));
-          case 13:
+          case 12:
           case "end":
             return _context7.stop();
         }
-      }, _callee7, null, [[0, 10]]);
+      }, _callee7, null, [[0, 9]]);
     }));
     function getFeaturedPlaylists(_x13, _x14) {
       return _getFeaturedPlaylists.apply(this, arguments);
@@ -744,16 +746,19 @@ var spotifyController = {
         while (1) switch (_context19.prev = _context19.next) {
           case 0:
             _context19.prev = 0;
-            tracks = req.body.tracks;
+            tracks = JSON.parse(req.body.tracks);
+            console.log("tracks: ", tracks);
             data = [];
-            promises = tracks.map( /*#__PURE__*/function () {
+            _context19.next = 6;
+            return tracks.map( /*#__PURE__*/function () {
               var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee18(item) {
                 return _regenerator["default"].wrap(function _callee18$(_context18) {
                   while (1) switch (_context18.prev = _context18.next) {
                     case 0:
-                      return _context18.abrupt("return", (0, _ytSearch["default"])(item.name, /*#__PURE__*/function () {
+                      _context18.next = 2;
+                      return (0, _ytSearch["default"])(item.search, /*#__PURE__*/function () {
                         var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee17(err, result) {
-                          var _audioFormats$, _audioFormats$2, _audioFormats$3, _audioFormats$4, _audioFormats$5, _audioFormats$6, video, videoInfo, audioFormats;
+                          var _audioFormats$, _audioFormats$2, _audioFormats$3, _audioFormats$4, _audioFormats$5, _audioFormats$6, _audioFormats$7, _audioFormats$8, video, videoInfo, audioFormats;
                           return _regenerator["default"].wrap(function _callee17$(_context17) {
                             while (1) switch (_context17.prev = _context17.next) {
                               case 0:
@@ -769,18 +774,19 @@ var spotifyController = {
                                 return _ytdlCore["default"].getInfo(video.videoId);
                               case 8:
                                 videoInfo = _context17.sent;
-                                _context17.next = 11;
+                                if (!videoInfo.formats) {
+                                  console.log("err formats: ", item.name);
+                                }
+                                _context17.next = 12;
                                 return _ytdlCoreDiscord["default"].filterFormats(videoInfo.formats, "audioonly");
-                              case 11:
+                              case 12:
                                 audioFormats = _context17.sent;
-                                data.push({
-                                  id: item.id,
-                                  name: item.name,
+                                data.push(_objectSpread(_objectSpread({}, item), {}, {
                                   audioUrl: ((_audioFormats$ = audioFormats[0]) === null || _audioFormats$ === void 0 ? void 0 : _audioFormats$.url) || ((_audioFormats$2 = audioFormats[1]) === null || _audioFormats$2 === void 0 ? void 0 : _audioFormats$2.url),
-                                  durationMs: ((_audioFormats$3 = audioFormats[0]) === null || _audioFormats$3 === void 0 ? void 0 : _audioFormats$3.approxDurationMs) || ((_audioFormats$4 = audioFormats[1]) === null || _audioFormats$4 === void 0 ? void 0 : _audioFormats$4.approxDurationMs)
-                                });
-                                return _context17.abrupt("return", ((_audioFormats$5 = audioFormats[0]) === null || _audioFormats$5 === void 0 ? void 0 : _audioFormats$5.url) || ((_audioFormats$6 = audioFormats[1]) === null || _audioFormats$6 === void 0 ? void 0 : _audioFormats$6.url));
-                              case 14:
+                                  durationMs: ((_audioFormats$3 = audioFormats[0]) === null || _audioFormats$3 === void 0 ? void 0 : _audioFormats$3.approxDurationMs) || ((_audioFormats$4 = audioFormats[1]) === null || _audioFormats$4 === void 0 ? void 0 : _audioFormats$4.approxDurationMs) || ((_audioFormats$5 = audioFormats[2]) === null || _audioFormats$5 === void 0 ? void 0 : _audioFormats$5.approxDurationMs)
+                                }));
+                                return _context17.abrupt("return", ((_audioFormats$6 = audioFormats[0]) === null || _audioFormats$6 === void 0 ? void 0 : _audioFormats$6.url) || ((_audioFormats$7 = audioFormats[1]) === null || _audioFormats$7 === void 0 ? void 0 : _audioFormats$7.url) || ((_audioFormats$8 = audioFormats[2]) === null || _audioFormats$8 === void 0 ? void 0 : _audioFormats$8.url));
+                              case 15:
                               case "end":
                                 return _context17.stop();
                             }
@@ -789,8 +795,10 @@ var spotifyController = {
                         return function (_x36, _x37) {
                           return _ref3.apply(this, arguments);
                         };
-                      }()));
-                    case 1:
+                      }());
+                    case 2:
+                      return _context18.abrupt("return", _context18.sent);
+                    case 3:
                     case "end":
                       return _context18.stop();
                   }
@@ -799,20 +807,22 @@ var spotifyController = {
               return function (_x35) {
                 return _ref2.apply(this, arguments);
               };
-            }()); // Now that our array of promises are set up, use Promise.all to
-            // execute them all in parallel
-            _context19.next = 6;
+            }());
+          case 6:
+            promises = _context19.sent;
+            _context19.next = 9;
             return _bluebird.Promise.all(promises).then(function (responses) {
               // Do something with responses
               // array of responses in the order of urls
               // eg: [ { resp1 }, { resp2 }, ...]
               setTimeout(function () {
-                if (responses.length === tracks.length) {
-                  res.status(200).json({
+                if (responses.length === tracks.length && responses[0] !== undefined) {
+                  console.log("data: ", responses);
+                  return res.status(200).json({
                     data: data
                   });
                 }
-              }, 6500);
+              }, 15000);
             })["catch"](function (e) {
               // handle errors
 
@@ -820,25 +830,124 @@ var spotifyController = {
                 message: "Error while fetching responses"
               });
             });
-          case 6:
-            _context19.next = 11;
+          case 9:
+            _context19.next = 14;
             break;
-          case 8:
-            _context19.prev = 8;
+          case 11:
+            _context19.prev = 11;
             _context19.t0 = _context19["catch"](0);
             return _context19.abrupt("return", res.status(404).json({
               message: _context19.t0
             }));
-          case 11:
+          case 14:
           case "end":
             return _context19.stop();
         }
-      }, _callee19, null, [[0, 8]]);
+      }, _callee19, null, [[0, 11]]);
     }));
     function getTrackUrlByNames(_x33, _x34) {
       return _getTrackUrlByNames.apply(this, arguments);
     }
     return getTrackUrlByNames;
+  }(),
+  // artist
+  getArtistById: function () {
+    var _getArtistById = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee20(req, res) {
+      var id, lastedToken;
+      return _regenerator["default"].wrap(function _callee20$(_context20) {
+        while (1) switch (_context20.prev = _context20.next) {
+          case 0:
+            _context20.prev = 0;
+            id = req.params.id;
+            _context20.next = 4;
+            return (0, _tokenManager.getTheLastTokenFromDb)();
+          case 4:
+            lastedToken = _context20.sent;
+            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/artists/").concat(id), {
+              headers: {
+                Authorization: "Bearer " + lastedToken.accessToken
+              },
+              params: {
+                market: "VN"
+              }
+            }).then(function (response) {
+              // handle response data
+              return res.status(200).json({
+                data: response.data
+              });
+            })["catch"](function (error) {
+              // handle error
+              return res.status(404).json({
+                message: error
+              });
+            });
+            _context20.next = 11;
+            break;
+          case 8:
+            _context20.prev = 8;
+            _context20.t0 = _context20["catch"](0);
+            return _context20.abrupt("return", res.status(404).json({
+              message: _context20.t0
+            }));
+          case 11:
+          case "end":
+            return _context20.stop();
+        }
+      }, _callee20, null, [[0, 8]]);
+    }));
+    function getArtistById(_x38, _x39) {
+      return _getArtistById.apply(this, arguments);
+    }
+    return getArtistById;
+  }(),
+  getTopTracksByArtistId: function () {
+    var _getTopTracksByArtistId = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee21(req, res) {
+      var id, lastedToken;
+      return _regenerator["default"].wrap(function _callee21$(_context21) {
+        while (1) switch (_context21.prev = _context21.next) {
+          case 0:
+            _context21.prev = 0;
+            id = req.params.id;
+            _context21.next = 4;
+            return (0, _tokenManager.getTheLastTokenFromDb)();
+          case 4:
+            lastedToken = _context21.sent;
+            _axios["default"].get("".concat(process.env.SPOTIFY_API_BASE_URL, "/artists/").concat(id, "/top-tracks"), {
+              headers: {
+                Authorization: "Bearer " + lastedToken.accessToken
+              },
+              params: {
+                market: "VN"
+              }
+            }).then(function (response) {
+              // handle response data
+              return res.status(200).json({
+                data: response.data
+              });
+            })["catch"](function (error) {
+              // handle error
+              return res.status(404).json({
+                message: error
+              });
+            });
+            _context21.next = 11;
+            break;
+          case 8:
+            _context21.prev = 8;
+            _context21.t0 = _context21["catch"](0);
+            return _context21.abrupt("return", res.status(404).json({
+              message: _context21.t0
+            }));
+          case 11:
+          case "end":
+            return _context21.stop();
+        }
+      }, _callee21, null, [[0, 8]]);
+    }));
+    function getTopTracksByArtistId(_x40, _x41) {
+      return _getTopTracksByArtistId.apply(this, arguments);
+    }
+    return getTopTracksByArtistId;
   }()
 };
 exports.spotifyController = spotifyController;

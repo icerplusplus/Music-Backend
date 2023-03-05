@@ -392,10 +392,11 @@ export const spotifyController = {
   },
   getTrackUrlByNames: async (req, res) => {
     try {
-      const tracks = req.body.tracks;
+      const tracks = JSON.parse(req.body.tracks);
+      console.log("tracks: ", tracks);
       let data = [];
 
-      const promises = tracks.map(async (item) => {
+      const promises = await tracks.map(async (item) => {
         return await search(item.search, async (err, result) => {
           if (err) {
             console.log("err: ", err);
@@ -439,10 +440,15 @@ export const spotifyController = {
           // array of responses in the order of urls
           // eg: [ { resp1 }, { resp2 }, ...]
           setTimeout(() => {
-            if (responses.length === tracks.length) {
-              res.status(200).json({ data: data });
+            if (
+              responses.length === tracks.length &&
+              responses[0] !== undefined
+            ) {
+              console.log("data: ", responses);
+
+              return res.status(200).json({ data: data });
             }
-          }, 7000);
+          }, 15000);
         })
         .catch((e) => {
           // handle errors

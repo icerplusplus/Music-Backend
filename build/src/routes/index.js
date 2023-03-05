@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _express = _interopRequireDefault(require("express"));
 var _musicController = _interopRequireDefault(require("../controllers/musicController"));
+var _zingmp3Controller = require("../controllers/zingmp3Controller");
 var _spotifyMiddleware = require("../middlewares/spotifyMiddleware");
 var _spotifyController = require("./../controllers/spotifyController");
 var router = _express["default"].Router();
@@ -31,17 +32,51 @@ router.get("/track-player/:name", _spotifyMiddleware.spotifyMiddleware.spotifyAu
 router.get("/current-devices", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getCurrentDevices);
 router.post("/track-urls", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getTrackUrlByNames);
 
-// router.get("/callback", spotifyController.setToken);
-// router.get("/top-playlists", spotifyController.getTopPlaylists);
-// router.get("/playlist/:playlistId", spotifyController.getTrackByPlaylistId);
-// router.get("/track/:trackId", spotifyController.getTrackDetail);
+// artist
+router.get("/artist/:id", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getArtistById);
+router.get("/top-tracks-of-artist/:id", _spotifyMiddleware.spotifyMiddleware.spotifyAuth, _spotifyController.spotifyController.getTopTracksByArtistId);
 
-// Main routers
-// router.get("/genres", musicController.getGenres);
-// router.get("/playlist/:playlistId", musicController.getPlaylist);
-// router.get("/track/:trackId", musicController.getTrack);
-// router.get("/top-tracks", musicController.getTopTrack);
-// router.get("/top-albums", musicController.getTopAlbums);
-// router.get("/top-artists", musicController.getTopArtists);
+// zing mp3 routers
+// getSong
+router.get("/song/:id", _zingmp3Controller.zingmp3Controller.getSong);
+
+// getDetailPlaylist
+router.get("/detailplaylist/:id", _zingmp3Controller.zingmp3Controller.getDetailPlaylist);
+
+// getHome
+router.get("/home", _zingmp3Controller.zingmp3Controller.getHome);
+
+// getTop100
+router.get("/top100", _zingmp3Controller.zingmp3Controller.getTop100);
+
+// getChartHome
+router.get("/charthome", _zingmp3Controller.zingmp3Controller.getChartHome);
+
+// getNewReleaseChart
+router.get("/newreleasechart", _zingmp3Controller.zingmp3Controller.getNewReleaseChart);
+
+// getInfoSong
+router.get("/infosong", _zingmp3Controller.zingmp3Controller.getInfo);
+
+// getArtist
+router.get("/artist", _zingmp3Controller.zingmp3Controller.getArtist);
+
+// getArtistSong
+router.get("/artistsong", _zingmp3Controller.zingmp3Controller.getArtistSong);
+
+// getLyric
+router.get("/lyric", _zingmp3Controller.zingmp3Controller.getLyric);
+
+// search
+router.get("/search", _zingmp3Controller.zingmp3Controller.search);
+
+// getListMV
+router.get("/listmv", _zingmp3Controller.zingmp3Controller.getListMV);
+
+// getCategoryMV
+router.get("/categorymv", _zingmp3Controller.zingmp3Controller.getCategoryMV);
+
+// getVideo
+router.get("/video", _zingmp3Controller.zingmp3Controller.getVideo);
 var _default = router;
 exports["default"] = _default;

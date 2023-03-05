@@ -1,5 +1,6 @@
 import express from "express";
 import musicController from "../controllers/musicController";
+import { zingmp3Controller } from "../controllers/zingmp3Controller";
 import { spotifyMiddleware } from "../middlewares/spotifyMiddleware";
 import { spotifyController } from "./../controllers/spotifyController";
 
@@ -102,17 +103,47 @@ router.get(
   spotifyController.getTopTracksByArtistId
 );
 
-// router.get("/callback", spotifyController.setToken);
-// router.get("/top-playlists", spotifyController.getTopPlaylists);
-// router.get("/playlist/:playlistId", spotifyController.getTrackByPlaylistId);
-// router.get("/track/:trackId", spotifyController.getTrackDetail);
+// zing mp3 routers
+// getSong
+router.get("/song/:id", zingmp3Controller.getSong);
 
-// Main routers
-// router.get("/genres", musicController.getGenres);
-// router.get("/playlist/:playlistId", musicController.getPlaylist);
-// router.get("/track/:trackId", musicController.getTrack);
-// router.get("/top-tracks", musicController.getTopTrack);
-// router.get("/top-albums", musicController.getTopAlbums);
-// router.get("/top-artists", musicController.getTopArtists);
+// getDetailPlaylist
+router.get("/detailplaylist/:id", zingmp3Controller.getDetailPlaylist);
+
+// getHome
+router.get("/home", zingmp3Controller.getHome);
+
+// getTop100
+router.get("/top100", zingmp3Controller.getTop100);
+
+// getChartHome
+router.get("/charthome", zingmp3Controller.getChartHome);
+
+// getNewReleaseChart
+router.get("/newreleasechart", zingmp3Controller.getNewReleaseChart);
+
+// getInfoSong
+router.get("/infosong", zingmp3Controller.getInfo);
+
+// getArtist
+router.get("/artist", zingmp3Controller.getArtist);
+
+// getArtistSong
+router.get("/artistsong", zingmp3Controller.getArtistSong);
+
+// getLyric
+router.get("/lyric", zingmp3Controller.getLyric);
+
+// search
+router.get("/search", zingmp3Controller.search);
+
+// getListMV
+router.get("/listmv", zingmp3Controller.getListMV);
+
+// getCategoryMV
+router.get("/categorymv", zingmp3Controller.getCategoryMV);
+
+// getVideo
+router.get("/video", zingmp3Controller.getVideo);
 
 export default router;
