@@ -52,11 +52,10 @@ var zingmp3Controller = {
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
-            console.log("get home data");
             _zingmp3ApiFull.ZingMp3.getHome().then(function (data) {
               res.json(data);
             });
-          case 2:
+          case 1:
           case "end":
             return _context3.stop();
         }
@@ -186,7 +185,7 @@ var zingmp3Controller = {
       return _regenerator["default"].wrap(function _callee10$(_context10) {
         while (1) switch (_context10.prev = _context10.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getLyric(req.query.id).then(function (data) {
+            _zingmp3ApiFull.ZingMp3.getLyric(req.params.id).then(function (data) {
               res.json(data);
             });
           case 1:

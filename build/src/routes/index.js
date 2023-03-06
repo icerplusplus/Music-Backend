@@ -65,7 +65,7 @@ router.get("/artist", _zingmp3Controller.zingmp3Controller.getArtist);
 router.get("/artistsong", _zingmp3Controller.zingmp3Controller.getArtistSong);
 
 // getLyric
-router.get("/lyric", _zingmp3Controller.zingmp3Controller.getLyric);
+router.get("/lyric/:id", _zingmp3Controller.zingmp3Controller.getLyric);
 
 // search
 router.get("/search", _zingmp3Controller.zingmp3Controller.search);
