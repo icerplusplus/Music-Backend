@@ -14,7 +14,6 @@ export const zingmp3Controller = {
   },
 
   getHome: async (req, res) => {
-    console.log("get home data");
     ZingMp3.getHome().then((data) => {
       res.json(data);
     });
@@ -61,7 +60,7 @@ export const zingmp3Controller = {
   },
 
   getLyric: async (req, res) => {
-    ZingMp3.getLyric(req.query.id).then((data) => {
+    ZingMp3.getLyric(req.params.id).then((data) => {
       res.json(data);
     });
   },

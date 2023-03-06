@@ -132,7 +132,7 @@ router.get("/artist", zingmp3Controller.getArtist);
 router.get("/artistsong", zingmp3Controller.getArtistSong);
 
 // getLyric
-router.get("/lyric", zingmp3Controller.getLyric);
+router.get("/lyric/:id", zingmp3Controller.getLyric);
 
 // search
 router.get("/search", zingmp3Controller.search);
