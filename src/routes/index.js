@@ -116,6 +116,9 @@ router.get("/home", zingmp3Controller.getHome);
 // getTop100
 router.get("/top100", zingmp3Controller.getTop100);
 
+// getTopArtists
+router.get("/topartists", zingmp3Controller.getTopArtists);
+
 // getChartHome
 router.get("/charthome", zingmp3Controller.getChartHome);
 
@@ -136,6 +139,9 @@ router.get("/lyric/:id", zingmp3Controller.getLyric);
 
 // search
 router.get("/search", zingmp3Controller.search);
+
+// suggestions
+router.get("/suggestions", zingmp3Controller.suggestions);
 
 // getListMV
 router.get("/listmv", zingmp3Controller.getListMV);
