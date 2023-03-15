@@ -7,14 +7,15 @@ Object.defineProperty(exports, "__esModule", {
 exports.zingmp3Controller = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-var _zingmp3ApiFull = require("zingmp3-api-full");
+var _zingmp3ApiFullV = require("zingmp3-api-full-v2");
+var _zingSearch = require("../utils/libraries/zingSearch");
 var zingmp3Controller = {
   getSong: function () {
     var _getSong = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
       return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getSong(req.params.id).then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getSong(req.params.id).then(function (data) {
               res.json(data);
             });
           case 1:
@@ -33,7 +34,7 @@ var zingmp3Controller = {
       return _regenerator["default"].wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getDetailPlaylist(req.params.id).then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getDetailPlaylist(req.params.id).then(function (data) {
               res.json(data);
             });
           case 1:
@@ -52,7 +53,7 @@ var zingmp3Controller = {
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getHome().then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getHome().then(function (data) {
               res.json(data);
             });
           case 1:
@@ -71,7 +72,7 @@ var zingmp3Controller = {
       return _regenerator["default"].wrap(function _callee4$(_context4) {
         while (1) switch (_context4.prev = _context4.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getTop100().then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getTop100().then(function (data) {
               res.json(data);
             });
           case 1:
@@ -85,13 +86,19 @@ var zingmp3Controller = {
     }
     return getTop100;
   }(),
-  getChartHome: function () {
-    var _getChartHome = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
+  getTopArtists: function () {
+    var _getTopArtists = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(req, res) {
       return _regenerator["default"].wrap(function _callee5$(_context5) {
         while (1) switch (_context5.prev = _context5.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getChartHome().then(function (data) {
-              res.json(data);
+            _zingmp3ApiFullV.ZingMp3.getArtistList().then(function (rs) {
+              var data = rs.data;
+              var artists = data.sections.find(function (item) {
+                return item.sectionType === "artist";
+              });
+              res.json({
+                data: artists
+              });
             });
           case 1:
           case "end":
@@ -99,17 +106,17 @@ var zingmp3Controller = {
         }
       }, _callee5);
     }));
-    function getChartHome(_x9, _x10) {
-      return _getChartHome.apply(this, arguments);
+    function getTopArtists(_x9, _x10) {
+      return _getTopArtists.apply(this, arguments);
     }
-    return getChartHome;
+    return getTopArtists;
   }(),
-  getNewReleaseChart: function () {
-    var _getNewReleaseChart = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(req, res) {
+  getChartHome: function () {
+    var _getChartHome = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(req, res) {
       return _regenerator["default"].wrap(function _callee6$(_context6) {
         while (1) switch (_context6.prev = _context6.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getNewReleaseChart().then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getChartHome().then(function (data) {
               res.json(data);
             });
           case 1:
@@ -118,17 +125,17 @@ var zingmp3Controller = {
         }
       }, _callee6);
     }));
-    function getNewReleaseChart(_x11, _x12) {
-      return _getNewReleaseChart.apply(this, arguments);
+    function getChartHome(_x11, _x12) {
+      return _getChartHome.apply(this, arguments);
     }
-    return getNewReleaseChart;
+    return getChartHome;
   }(),
-  getInfo: function () {
-    var _getInfo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
+  getNewReleaseChart: function () {
+    var _getNewReleaseChart = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(req, res) {
       return _regenerator["default"].wrap(function _callee7$(_context7) {
         while (1) switch (_context7.prev = _context7.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getInfoSong(req.query.id).then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getNewReleaseChart().then(function (data) {
               res.json(data);
             });
           case 1:
@@ -137,17 +144,17 @@ var zingmp3Controller = {
         }
       }, _callee7);
     }));
-    function getInfo(_x13, _x14) {
-      return _getInfo.apply(this, arguments);
+    function getNewReleaseChart(_x13, _x14) {
+      return _getNewReleaseChart.apply(this, arguments);
     }
-    return getInfo;
+    return getNewReleaseChart;
   }(),
-  getArtist: function () {
-    var _getArtist = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
+  getInfo: function () {
+    var _getInfo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
       return _regenerator["default"].wrap(function _callee8$(_context8) {
         while (1) switch (_context8.prev = _context8.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getArtist(req.query.name).then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getInfoSong(req.query.id).then(function (data) {
               res.json(data);
             });
           case 1:
@@ -156,17 +163,17 @@ var zingmp3Controller = {
         }
       }, _callee8);
     }));
-    function getArtist(_x15, _x16) {
-      return _getArtist.apply(this, arguments);
+    function getInfo(_x15, _x16) {
+      return _getInfo.apply(this, arguments);
     }
-    return getArtist;
+    return getInfo;
   }(),
-  getArtistSong: function () {
-    var _getArtistSong = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(req, res) {
+  getArtist: function () {
+    var _getArtist = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(req, res) {
       return _regenerator["default"].wrap(function _callee9$(_context9) {
         while (1) switch (_context9.prev = _context9.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getListArtistSong(req.query.id, req.query.page, req.query.count).then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getArtist(req.query.name).then(function (data) {
               res.json(data);
             });
           case 1:
@@ -175,17 +182,17 @@ var zingmp3Controller = {
         }
       }, _callee9);
     }));
-    function getArtistSong(_x17, _x18) {
-      return _getArtistSong.apply(this, arguments);
+    function getArtist(_x17, _x18) {
+      return _getArtist.apply(this, arguments);
     }
-    return getArtistSong;
+    return getArtist;
   }(),
-  getLyric: function () {
-    var _getLyric = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(req, res) {
+  getArtistSong: function () {
+    var _getArtistSong = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(req, res) {
       return _regenerator["default"].wrap(function _callee10$(_context10) {
         while (1) switch (_context10.prev = _context10.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getLyric(req.params.id).then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getListArtistSong(req.query.id, req.query.page, req.query.count).then(function (data) {
               res.json(data);
             });
           case 1:
@@ -194,17 +201,17 @@ var zingmp3Controller = {
         }
       }, _callee10);
     }));
-    function getLyric(_x19, _x20) {
-      return _getLyric.apply(this, arguments);
+    function getArtistSong(_x19, _x20) {
+      return _getArtistSong.apply(this, arguments);
     }
-    return getLyric;
+    return getArtistSong;
   }(),
-  search: function () {
-    var _search = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(req, res) {
+  getLyric: function () {
+    var _getLyric = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(req, res) {
       return _regenerator["default"].wrap(function _callee11$(_context11) {
         while (1) switch (_context11.prev = _context11.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.search(req.query.keyword).then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getLyric(req.params.id).then(function (data) {
               res.json(data);
             });
           case 1:
@@ -213,17 +220,17 @@ var zingmp3Controller = {
         }
       }, _callee11);
     }));
-    function search(_x21, _x22) {
-      return _search.apply(this, arguments);
+    function getLyric(_x21, _x22) {
+      return _getLyric.apply(this, arguments);
     }
-    return search;
+    return getLyric;
   }(),
-  getListMV: function () {
-    var _getListMV = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(req, res) {
+  search: function () {
+    var _search = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(req, res) {
       return _regenerator["default"].wrap(function _callee12$(_context12) {
         while (1) switch (_context12.prev = _context12.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getListMV(req.query.id, req.query.page, req.query.count).then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.search(req.query.keyword).then(function (data) {
               res.json(data);
             });
           case 1:
@@ -232,17 +239,17 @@ var zingmp3Controller = {
         }
       }, _callee12);
     }));
-    function getListMV(_x23, _x24) {
-      return _getListMV.apply(this, arguments);
+    function search(_x23, _x24) {
+      return _search.apply(this, arguments);
     }
-    return getListMV;
+    return search;
   }(),
-  getCategoryMV: function () {
-    var _getCategoryMV = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(req, res) {
+  suggestions: function () {
+    var _suggestions = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(req, res) {
       return _regenerator["default"].wrap(function _callee13$(_context13) {
         while (1) switch (_context13.prev = _context13.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getCategoryMV(req.query.id).then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.Suggest().then(function (data) {
               res.json(data);
             });
           case 1:
@@ -251,17 +258,17 @@ var zingmp3Controller = {
         }
       }, _callee13);
     }));
-    function getCategoryMV(_x25, _x26) {
-      return _getCategoryMV.apply(this, arguments);
+    function suggestions(_x25, _x26) {
+      return _suggestions.apply(this, arguments);
     }
-    return getCategoryMV;
+    return suggestions;
   }(),
-  getVideo: function () {
-    var _getVideo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(req, res) {
+  getListMV: function () {
+    var _getListMV = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(req, res) {
       return _regenerator["default"].wrap(function _callee14$(_context14) {
         while (1) switch (_context14.prev = _context14.next) {
           case 0:
-            _zingmp3ApiFull.ZingMp3.getVideo(req.query.id).then(function (data) {
+            _zingmp3ApiFullV.ZingMp3.getListMV(req.query.id, req.query.page, req.query.count).then(function (data) {
               res.json(data);
             });
           case 1:
@@ -270,7 +277,45 @@ var zingmp3Controller = {
         }
       }, _callee14);
     }));
-    function getVideo(_x27, _x28) {
+    function getListMV(_x27, _x28) {
+      return _getListMV.apply(this, arguments);
+    }
+    return getListMV;
+  }(),
+  getCategoryMV: function () {
+    var _getCategoryMV = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee15(req, res) {
+      return _regenerator["default"].wrap(function _callee15$(_context15) {
+        while (1) switch (_context15.prev = _context15.next) {
+          case 0:
+            _zingmp3ApiFullV.ZingMp3.getCategoryMV(req.query.id).then(function (data) {
+              res.json(data);
+            });
+          case 1:
+          case "end":
+            return _context15.stop();
+        }
+      }, _callee15);
+    }));
+    function getCategoryMV(_x29, _x30) {
+      return _getCategoryMV.apply(this, arguments);
+    }
+    return getCategoryMV;
+  }(),
+  getVideo: function () {
+    var _getVideo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee16(req, res) {
+      return _regenerator["default"].wrap(function _callee16$(_context16) {
+        while (1) switch (_context16.prev = _context16.next) {
+          case 0:
+            _zingmp3ApiFullV.ZingMp3.getVideo(req.query.id).then(function (data) {
+              res.json(data);
+            });
+          case 1:
+          case "end":
+            return _context16.stop();
+        }
+      }, _callee16);
+    }));
+    function getVideo(_x31, _x32) {
       return _getVideo.apply(this, arguments);
     }
     return getVideo;

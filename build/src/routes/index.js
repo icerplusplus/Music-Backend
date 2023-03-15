@@ -49,6 +49,9 @@ router.get("/home", _zingmp3Controller.zingmp3Controller.getHome);
 // getTop100
 router.get("/top100", _zingmp3Controller.zingmp3Controller.getTop100);
 
+// getTopArtists
+router.get("/topartists", _zingmp3Controller.zingmp3Controller.getTopArtists);
+
 // getChartHome
 router.get("/charthome", _zingmp3Controller.zingmp3Controller.getChartHome);
 
@@ -69,6 +72,9 @@ router.get("/lyric/:id", _zingmp3Controller.zingmp3Controller.getLyric);
 
 // search
 router.get("/search", _zingmp3Controller.zingmp3Controller.search);
+
+// suggestions
+router.get("/suggestions", _zingmp3Controller.zingmp3Controller.suggestions);
 
 // getListMV
 router.get("/listmv", _zingmp3Controller.zingmp3Controller.getListMV);
