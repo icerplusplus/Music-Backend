@@ -116,9 +116,6 @@ router.get("/home", zingmp3Controller.getHome);
 // getTop100
 router.get("/top100", zingmp3Controller.getTop100);
 
-// getTopArtists
-router.get("/topartists", zingmp3Controller.getTopArtists);
-
 // getChartHome
 router.get("/charthome", zingmp3Controller.getChartHome);
 
@@ -134,7 +131,7 @@ router.get("/artist", zingmp3Controller.getArtist);
 // getArtistSong
 router.get("/artistsongs", zingmp3Controller.getArtistSong);
 
-// getArtistSong
+// getArtistPlaylists
 router.get("/artistplaylists", zingmp3Controller.getArtistPlaylist);
 
 // getLyric

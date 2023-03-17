@@ -1,4 +1,4 @@
-import { ZingMp3 } from "zingmp3-api-full";
+import { ZingMp3 } from "zingmp3-api-full-v3";
 // import { ZingMp3Search } from "../utils/libraries/zingSearch";
 
 export const zingmp3Controller = {
@@ -23,16 +23,6 @@ export const zingmp3Controller = {
   getTop100: async (req, res) => {
     ZingMp3.getTop100().then((data) => {
       res.json(data);
-    });
-  },
-
-  getTopArtists: async (req, res) => {
-    ZingMp3.getArtistList().then((rs) => {
-      const { data } = rs;
-      const artists = data.sections.find(
-        (item) => item.sectionType === "artist"
-      );
-      res.json({ data: artists });
     });
   },
 
@@ -61,15 +51,17 @@ export const zingmp3Controller = {
   },
 
   getArtistSong: async (req, res) => {
-    ZingMp3.getSearchAll(req.query.name, req.query.page, req.query.count).then(
-      (data) => {
-        res.json(data);
-      }
-    );
+    ZingMp3.getListArtistSong(
+      req.query.id,
+      req.query.page,
+      req.query.count
+    ).then((data) => {
+      res.json(data);
+    });
   },
   getArtistPlaylist: async (req, res) => {
-    ZingMp3.getSearchAllPlaylist(
-      req.query.name,
+    ZingMp3.getListArtistPlaylist(
+      req.query.id,
       req.query.page,
       req.query.count
     ).then((data) => {
