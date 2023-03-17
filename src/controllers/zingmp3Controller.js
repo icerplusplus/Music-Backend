@@ -1,5 +1,5 @@
-import { ZingMp3 } from "zingmp3-api-full-v2";
-import { ZingMp3Search } from "../utils/libraries/zingSearch";
+import { ZingMp3 } from "zingmp3-api-full";
+// import { ZingMp3Search } from "../utils/libraries/zingSearch";
 
 export const zingmp3Controller = {
   getSong: async (req, res) => {
@@ -61,8 +61,15 @@ export const zingmp3Controller = {
   },
 
   getArtistSong: async (req, res) => {
-    ZingMp3.getListArtistSong(
-      req.query.id,
+    ZingMp3.getSearchAll(req.query.name, req.query.page, req.query.count).then(
+      (data) => {
+        res.json(data);
+      }
+    );
+  },
+  getArtistPlaylist: async (req, res) => {
+    ZingMp3.getSearchAllPlaylist(
+      req.query.name,
       req.query.page,
       req.query.count
     ).then((data) => {
