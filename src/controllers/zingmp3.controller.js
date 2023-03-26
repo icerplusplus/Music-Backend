@@ -1,5 +1,4 @@
 import { ZingMp3 } from "zingmp3-api-full-v3";
-// import { ZingMp3Search } from "../utils/libraries/zingSearch";
 
 export const zingmp3Controller = {
   getSong: async (req, res) => {

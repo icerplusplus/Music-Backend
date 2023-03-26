@@ -8,7 +8,6 @@ exports.zingmp3Controller = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _zingmp3ApiFullV = require("zingmp3-api-full-v3");
-
 var zingmp3Controller = {
   getSong: function () {
     var _getSong = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {

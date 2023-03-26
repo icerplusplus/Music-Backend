@@ -1,107 +1,15 @@
 import express from "express";
-import musicController from "../controllers/musicController";
-import { zingmp3Controller } from "../controllers/zingmp3Controller";
-import { spotifyMiddleware } from "../middlewares/spotifyMiddleware";
-import { spotifyController } from "./../controllers/spotifyController";
+import authController from "../controllers/auth.controller";
+import { zingmp3Controller } from "../controllers/zingmp3.controller";
+import middleWare from "./../middlewares";
 
 const router = express.Router();
 
-// spotify routers
-router.get("/", spotifyController.spotifyAuthorize);
-router.get("/callback", spotifyController.spotifyCallback);
-router.get(
-  "/top-albums",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getTopAlbums
-);
-
-router.get(
-  "/top-artists",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getTopArtists
-);
-
-router.get(
-  "/album-tracks/:albumId",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getAlbumTracks
-);
-
-router.get(
-  "/top-tracks",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getTopTracks
-);
-
-router.get(
-  "/featured-playlists",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getFeaturedPlaylists
-);
-
-router.get(
-  "/genres",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getGenres
-);
-router.get(
-  "/several-browse-categories",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getSeveralBrowseCategories
-);
-
-// remove in feature
-router.get(
-  "/single-browse-category/:categoryId",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getSingleBrowseCategory
-);
-
-router.get(
-  "/category-playlists/:categoryId",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getCategoryPlaylists
-);
-router.get(
-  "/playlist-tracks/:playlistId",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getPlaylistTracks
-);
-router.get(
-  "/track/:trackId",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getTrackById
-);
-
-router.get(
-  "/track-player/:name",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.playTrackWithUrl
-);
-
-router.get(
-  "/current-devices",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getCurrentDevices
-);
-
-router.post(
-  "/track-urls",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getTrackUrlByNames
-);
-
-// artist
-router.get(
-  "/artist/:id",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getArtistById
-);
-router.get(
-  "/top-tracks-of-artist/:id",
-  spotifyMiddleware.spotifyAuth,
-  spotifyController.getTopTracksByArtistId
-);
+// auth routers
+router.post("/register", authController.register);
+router.post("/login", authController.login);
+router.get("/refresh", authController.getRefreshToken);
+router.get("/logout/:id", middleWare.verifyToken, authController.logout);
 
 // zing mp3 routers
 // getSong
