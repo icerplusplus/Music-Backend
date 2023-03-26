@@ -41,38 +41,38 @@ var authController = {
               name: req.body.name,
               email: req.body.email,
               password: hashed
-            });
-            console.log("newUser: ", newUser);
-
-            // Save to database after 5s
-            _context2.next = 11;
+            }); // Save to database after 5s
+            _context2.next = 10;
             return newUser.save();
-          case 11:
+          case 10:
             user = _context2.sent;
             _user$_doc = user._doc, isAdmin = _user$_doc.isAdmin, password = _user$_doc.password, filterInfo = (0, _objectWithoutProperties2["default"])(_user$_doc, _excluded);
             setTimeout( /*#__PURE__*/(0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
               return _regenerator["default"].wrap(function _callee$(_context) {
                 while (1) switch (_context.prev = _context.next) {
                   case 0:
-                    return _context.abrupt("return", res.status(200).json(filterInfo));
+                    return _context.abrupt("return", res.status(200).json({
+                      data: filterInfo,
+                      message: "create new account successful"
+                    }));
                   case 1:
                   case "end":
                     return _context.stop();
                 }
               }, _callee);
             })), 5000);
-            _context2.next = 20;
+            _context2.next = 19;
             break;
-          case 16:
-            _context2.prev = 16;
+          case 15:
+            _context2.prev = 15;
             _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
             return _context2.abrupt("return", res.status(500).json(_context2.t0));
-          case 20:
+          case 19:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[0, 16]]);
+      }, _callee2, null, [[0, 15]]);
     }));
     function register(_x, _x2) {
       return _register.apply(this, arguments);
@@ -98,6 +98,7 @@ var authController = {
               break;
             }
             return _context4.abrupt("return", res.status(401).json({
+              data: {},
               message: "Wrong email!"
             }));
           case 6:
@@ -110,6 +111,7 @@ var authController = {
               break;
             }
             return _context4.abrupt("return", res.status(401).json({
+              data: {},
               message: "Wrong password!"
             }));
           case 11:
@@ -143,9 +145,10 @@ var authController = {
               return _regenerator["default"].wrap(function _callee3$(_context3) {
                 while (1) switch (_context3.prev = _context3.next) {
                   case 0:
-                    return _context3.abrupt("return", res.status(200).json(_objectSpread(_objectSpread({}, orders), {}, {
-                      accessToken: accessToken
-                    })));
+                    return _context3.abrupt("return", res.status(200).json({
+                      data: _objectSpread({}, orders),
+                      message: "Login successful!"
+                    }));
                   case 1:
                   case "end":
                     return _context3.stop();
@@ -185,6 +188,7 @@ var authController = {
               break;
             }
             return _context6.abrupt("return", res.status(401).json({
+              data: {},
               message: "You're not authenticated"
             }));
           case 4:
@@ -199,6 +203,7 @@ var authController = {
                         break;
                       }
                       return _context5.abrupt("return", res.status(401).json({
+                        data: {},
                         message: "Refresh Token is not valid"
                       }));
                     case 2:
@@ -225,7 +230,10 @@ var authController = {
                       updatedUser = _context5.sent;
                       // return access token to client
                       _updatedUser$_doc2 = updatedUser._doc, password = _updatedUser$_doc2.password, orders = (0, _objectWithoutProperties2["default"])(_updatedUser$_doc2, _excluded3);
-                      return _context5.abrupt("return", res.status(200).json(_objectSpread({}, orders)));
+                      return _context5.abrupt("return", res.status(200).json({
+                        data: _objectSpread({}, orders),
+                        message: "access token updated"
+                      }));
                     case 13:
                     case "end":
                       return _context5.stop();
@@ -273,6 +281,7 @@ var authController = {
               console.log("token is updated");
             });
             return _context7.abrupt("return", res.status(200).json({
+              data: {},
               message: "Logout successfully!"
             }));
           case 2:

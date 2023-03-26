@@ -5,20 +5,18 @@ const userSchema = new mongoose.Schema(
     name: {
       type: "string",
       required: true,
-      minlength: 8,
+      minlength: 5,
       maxlength: 30,
     },
     email: {
       type: "string",
       required: true,
-      minlength: 10,
       maxlength: 50,
       unique: true,
     },
     password: {
       type: "string",
       required: true,
-      minlength: 8,
       maxlength: 255,
     },
     isAdmin: {
@@ -26,11 +24,11 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
     accessToken: {
-      type: "string"
+      type: "string",
     },
     refreshToken: {
-      type: "string"
-    }
+      type: "string",
+    },
   },
   {
     timestamps: true,
