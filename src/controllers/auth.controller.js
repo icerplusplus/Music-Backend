@@ -22,13 +22,13 @@ const authController = {
         password: hashed,
       });
 
-      console.log("newUser: ", newUser);
-
       // Save to database after 5s
       const user = await newUser.save();
       const { isAdmin, password, ...filterInfo } = user._doc;
       setTimeout(async () => {
-        return res.status(200).json(filterInfo);
+        return res
+          .status(200)
+          .json({ data: filterInfo, message: "create new account successful" });
       }, 5000);
     } catch (error) {
       console.log(error);
@@ -41,7 +41,7 @@ const authController = {
       const user = await User.findOne({ email: req.body.email });
 
       if (!user) {
-        return res.status(401).json({ message: "Wrong email!" });
+        return res.status(401).json({ data: {}, message: "Wrong email!" });
       }
       const validPassword = await bcrypt.compare(
         req.body.password,
@@ -49,7 +49,7 @@ const authController = {
       );
 
       if (!validPassword) {
-        return res.status(401).json({ message: "Wrong password!" });
+        return res.status(401).json({ data: {}, message: "Wrong password!" });
       }
 
       if (user && validPassword) {
@@ -72,7 +72,9 @@ const authController = {
 
         const { password, ...orders } = updatedUser._doc;
         setTimeout(async () => {
-          return res.status(200).json({ ...orders, accessToken });
+          return res
+            .status(200)
+            .json({ data: { ...orders }, message: "Login successful!" });
         }, 2000);
       }
     } catch (error) {
@@ -85,7 +87,9 @@ const authController = {
     try {
       const refreshToken = req.headers.token.split(" ")[1];
       if (!refreshToken)
-        return res.status(401).json({ message: "You're not authenticated" });
+        return res
+          .status(401)
+          .json({ data: {}, message: "You're not authenticated" });
 
       jwt.verify(
         refreshToken,
@@ -94,7 +98,7 @@ const authController = {
           if (err) {
             return res
               .status(401)
-              .json({ message: "Refresh Token is not valid" });
+              .json({ data: {}, message: "Refresh Token is not valid" });
           }
 
           // Delete current refresh token have been logon
@@ -118,7 +122,9 @@ const authController = {
 
           // return access token to client
           const { password, ...orders } = updatedUser._doc;
-          return res.status(200).json({ ...orders });
+          return res
+            .status(200)
+            .json({ data: { ...orders }, message: "access token updated" });
         }
       );
     } catch (error) {
@@ -143,7 +149,7 @@ const authController = {
       console.log("token is updated");
     });
 
-    return res.status(200).json({ message: "Logout successfully!" });
+    return res.status(200).json({ data: {}, message: "Logout successfully!" });
   },
 };
 
