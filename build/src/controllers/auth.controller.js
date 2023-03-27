@@ -63,7 +63,7 @@ var authController = {
             _context2.prev = 12;
             _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
-            return _context2.abrupt("return", res.status(500).json(_context2.t0));
+            return _context2.abrupt("return", res.status(200).json(_context2.t0));
           case 16:
           case "end":
             return _context2.stop();
@@ -93,7 +93,7 @@ var authController = {
               _context4.next = 6;
               break;
             }
-            return _context4.abrupt("return", res.status(401).json({
+            return _context4.abrupt("return", res.status(200).json({
               data: {},
               message: "Wrong email!"
             }));
@@ -106,7 +106,7 @@ var authController = {
               _context4.next = 11;
               break;
             }
-            return _context4.abrupt("return", res.status(401).json({
+            return _context4.abrupt("return", res.status(200).json({
               data: {},
               message: "Wrong password!"
             }));
@@ -158,7 +158,7 @@ var authController = {
             _context4.prev = 25;
             _context4.t0 = _context4["catch"](0);
             console.log("Login failed", _context4.t0);
-            return _context4.abrupt("return", res.status(500).json(_context4.t0));
+            return _context4.abrupt("return", res.status(200).json(_context4.t0));
           case 29:
           case "end":
             return _context4.stop();
@@ -183,7 +183,7 @@ var authController = {
               _context6.next = 4;
               break;
             }
-            return _context6.abrupt("return", res.status(401).json({
+            return _context6.abrupt("return", res.status(200).json({
               data: {},
               message: "You're not authenticated"
             }));
@@ -198,7 +198,7 @@ var authController = {
                         _context5.next = 2;
                         break;
                       }
-                      return _context5.abrupt("return", res.status(401).json({
+                      return _context5.abrupt("return", res.status(200).json({
                         data: {},
                         message: "Refresh Token is not valid"
                       }));
@@ -245,7 +245,7 @@ var authController = {
           case 7:
             _context6.prev = 7;
             _context6.t0 = _context6["catch"](0);
-            return _context6.abrupt("return", res.status(500).json(_context6.t0));
+            return _context6.abrupt("return", res.status(200).json(_context6.t0));
           case 10:
           case "end":
             return _context6.stop();
@@ -320,7 +320,7 @@ var authController = {
           case 8:
             _context8.prev = 8;
             _context8.t0 = _context8["catch"](0);
-            return _context8.abrupt("return", res.status(500).json({
+            return _context8.abrupt("return", res.status(200).json({
               data: {},
               message: "The password change process has failed!"
             }));
