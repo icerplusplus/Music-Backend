@@ -23,7 +23,7 @@ var authController = {
   // REGISTER
   register: function () {
     var _register = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
-      var passwordHashed, newUser, user, _user$_doc, isAdmin, password, filterInfo;
+      var passwordHashed, userExist, newUser, user, _user$_doc, isAdmin, password, filterInfo;
       return _regenerator["default"].wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
@@ -32,15 +32,30 @@ var authController = {
             return (0, _libraries.hashPassword)(req.body.password);
           case 3:
             passwordHashed = _context2.sent;
+            _context2.next = 6;
+            return _User["default"].findOne({
+              email: req.body.email
+            });
+          case 6:
+            userExist = _context2.sent;
+            if (!userExist) {
+              _context2.next = 9;
+              break;
+            }
+            return _context2.abrupt("return", res.status(200).json({
+              data: {},
+              message: "Email already exists in system!"
+            }));
+          case 9:
             // Create new user
             newUser = new _User["default"]({
               name: req.body.name,
               email: req.body.email,
               password: passwordHashed
             }); // Save to database after 5s
-            _context2.next = 7;
+            _context2.next = 12;
             return newUser.save();
-          case 7:
+          case 12:
             user = _context2.sent;
             _user$_doc = user._doc, isAdmin = _user$_doc.isAdmin, password = _user$_doc.password, filterInfo = (0, _objectWithoutProperties2["default"])(_user$_doc, _excluded);
             setTimeout( /*#__PURE__*/(0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
@@ -57,18 +72,18 @@ var authController = {
                 }
               }, _callee);
             })), 5000);
-            _context2.next = 16;
+            _context2.next = 21;
             break;
-          case 12:
-            _context2.prev = 12;
+          case 17:
+            _context2.prev = 17;
             _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
             return _context2.abrupt("return", res.status(200).json(_context2.t0));
-          case 16:
+          case 21:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[0, 12]]);
+      }, _callee2, null, [[0, 17]]);
     }));
     function register(_x, _x2) {
       return _register.apply(this, arguments);

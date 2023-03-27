@@ -14,6 +14,12 @@ const authController = {
   register: async (req, res) => {
     try {
       const passwordHashed = await hashPassword(req.body.password);
+      const userExist = await User.findOne({ email: req.body.email });
+      if (userExist)
+        return res
+          .status(200)
+          .json({ data: {}, message: "Email already exists in system!" });
+
       // Create new user
       const newUser = new User({
         name: req.body.name,
