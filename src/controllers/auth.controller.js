@@ -31,7 +31,7 @@ const authController = {
       }, 5000);
     } catch (error) {
       console.log(error);
-      return res.status(500).json(error);
+      return res.status(200).json(error);
     }
   },
   // LOGIN
@@ -40,7 +40,7 @@ const authController = {
       const user = await User.findOne({ email: req.body.email });
 
       if (!user) {
-        return res.status(401).json({ data: {}, message: "Wrong email!" });
+        return res.status(200).json({ data: {}, message: "Wrong email!" });
       }
       const validPassword = await bcrypt.compare(
         req.body.password,
@@ -48,7 +48,7 @@ const authController = {
       );
 
       if (!validPassword) {
-        return res.status(401).json({ data: {}, message: "Wrong password!" });
+        return res.status(200).json({ data: {}, message: "Wrong password!" });
       }
 
       if (user && validPassword) {
@@ -78,7 +78,7 @@ const authController = {
       }
     } catch (error) {
       console.log("Login failed", error);
-      return res.status(500).json(error);
+      return res.status(200).json(error);
     }
   },
   // GET REFRESH TOKEN
@@ -87,7 +87,7 @@ const authController = {
       const refreshToken = req.headers.token.split(" ")[1];
       if (!refreshToken)
         return res
-          .status(401)
+          .status(200)
           .json({ data: {}, message: "You're not authenticated" });
 
       jwt.verify(
@@ -96,7 +96,7 @@ const authController = {
         async (err, user) => {
           if (err) {
             return res
-              .status(401)
+              .status(200)
               .json({ data: {}, message: "Refresh Token is not valid" });
           }
 
@@ -127,7 +127,7 @@ const authController = {
         }
       );
     } catch (error) {
-      return res.status(500).json(error);
+      return res.status(200).json(error);
     }
   },
   // LOGOUT
@@ -174,7 +174,7 @@ const authController = {
         .json({ data: {}, message: "Password is updated!" });
     } catch (error) {
       return res
-        .status(500)
+        .status(200)
         .json({ data: {}, message: "The password change process has failed!" });
     }
   },
