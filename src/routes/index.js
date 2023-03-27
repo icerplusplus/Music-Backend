@@ -10,6 +10,11 @@ router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.get("/refresh", authController.getRefreshToken);
 router.get("/logout/:id", middleWare.verifyToken, authController.logout);
+router.post(
+  "/changepassword/:id",
+  middleWare.verifyToken,
+  authController.changePassword
+);
 
 // zing mp3 routers
 // getSong

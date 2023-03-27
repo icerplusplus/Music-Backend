@@ -16,6 +16,7 @@ router.post("/register", _auth["default"].register);
 router.post("/login", _auth["default"].login);
 router.get("/refresh", _auth["default"].getRefreshToken);
 router.get("/logout/:id", _middlewares["default"].verifyToken, _auth["default"].logout);
+router.post("/changepassword/:id", _middlewares["default"].verifyToken, _auth["default"].changePassword);
 
 // zing mp3 routers
 // getSong

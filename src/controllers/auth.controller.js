@@ -4,7 +4,8 @@ import jwt from "jsonwebtoken";
 import {
   generateAccessToken,
   generateRefreshToken,
-} from "../libraries/autoGenerateToken";
+  hashPassword,
+} from "../libraries";
 
 let refreshTokens = [];
 
@@ -12,14 +13,12 @@ const authController = {
   // REGISTER
   register: async (req, res) => {
     try {
-      const salt = await bcrypt.genSalt(10);
-      const hashed = await bcrypt.hash(req.body.password, salt);
-
+      const passwordHashed = await hashPassword(req.body.password);
       // Create new user
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        password: hashed,
+        password: passwordHashed,
       });
 
       // Save to database after 5s
@@ -150,6 +149,34 @@ const authController = {
     });
 
     return res.status(200).json({ data: {}, message: "Logout successfully!" });
+  },
+  // LOGOUT
+  changePassword: async (req, res) => {
+    try {
+      // hash password
+      const passwordHashed = await hashPassword(req.body.password);
+
+      // find user and update
+      User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            password: passwordHashed,
+          },
+        },
+        { new: true }
+      ).then((user) => {
+        console.log("Password is updated");
+      });
+
+      return res
+        .status(200)
+        .json({ data: {}, message: "Password is updated!" });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ data: {}, message: "The password change process has failed!" });
+    }
   },
 };
 

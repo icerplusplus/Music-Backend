@@ -12,7 +12,7 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 var _User = _interopRequireDefault(require("../models/User.js"));
 var _bcrypt = _interopRequireDefault(require("bcrypt"));
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
-var _autoGenerateToken = require("../libraries/autoGenerateToken");
+var _libraries = require("../libraries");
 var _excluded = ["isAdmin", "password"],
   _excluded2 = ["password"],
   _excluded3 = ["password"];
@@ -23,28 +23,24 @@ var authController = {
   // REGISTER
   register: function () {
     var _register = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
-      var salt, hashed, newUser, user, _user$_doc, isAdmin, password, filterInfo;
+      var passwordHashed, newUser, user, _user$_doc, isAdmin, password, filterInfo;
       return _regenerator["default"].wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return _bcrypt["default"].genSalt(10);
+            return (0, _libraries.hashPassword)(req.body.password);
           case 3:
-            salt = _context2.sent;
-            _context2.next = 6;
-            return _bcrypt["default"].hash(req.body.password, salt);
-          case 6:
-            hashed = _context2.sent;
+            passwordHashed = _context2.sent;
             // Create new user
             newUser = new _User["default"]({
               name: req.body.name,
               email: req.body.email,
-              password: hashed
+              password: passwordHashed
             }); // Save to database after 5s
-            _context2.next = 10;
+            _context2.next = 7;
             return newUser.save();
-          case 10:
+          case 7:
             user = _context2.sent;
             _user$_doc = user._doc, isAdmin = _user$_doc.isAdmin, password = _user$_doc.password, filterInfo = (0, _objectWithoutProperties2["default"])(_user$_doc, _excluded);
             setTimeout( /*#__PURE__*/(0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
@@ -61,18 +57,18 @@ var authController = {
                 }
               }, _callee);
             })), 5000);
-            _context2.next = 19;
+            _context2.next = 16;
             break;
-          case 15:
-            _context2.prev = 15;
+          case 12:
+            _context2.prev = 12;
             _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
             return _context2.abrupt("return", res.status(500).json(_context2.t0));
-          case 19:
+          case 16:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[0, 15]]);
+      }, _callee2, null, [[0, 12]]);
     }));
     function register(_x, _x2) {
       return _register.apply(this, arguments);
@@ -120,11 +116,11 @@ var authController = {
               break;
             }
             _context4.next = 14;
-            return (0, _autoGenerateToken.generateAccessToken)(user);
+            return (0, _libraries.generateAccessToken)(user);
           case 14:
             accessToken = _context4.sent;
             _context4.next = 17;
-            return (0, _autoGenerateToken.generateRefreshToken)(user);
+            return (0, _libraries.generateRefreshToken)(user);
           case 17:
             refreshToken = _context4.sent;
             _context4.next = 20;
@@ -208,11 +204,11 @@ var authController = {
                       }));
                     case 2:
                       _context5.next = 4;
-                      return (0, _autoGenerateToken.generateAccessToken)(user);
+                      return (0, _libraries.generateAccessToken)(user);
                     case 4:
                       newAccessToken = _context5.sent;
                       _context5.next = 7;
-                      return (0, _autoGenerateToken.generateRefreshToken)(user);
+                      return (0, _libraries.generateRefreshToken)(user);
                     case 7:
                       newRefreshToken = _context5.sent;
                       _context5.next = 10;
@@ -294,6 +290,50 @@ var authController = {
       return _logout.apply(this, arguments);
     }
     return logout;
+  }(),
+  // LOGOUT
+  changePassword: function () {
+    var _changePassword = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(req, res) {
+      var passwordHashed;
+      return _regenerator["default"].wrap(function _callee8$(_context8) {
+        while (1) switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.prev = 0;
+            _context8.next = 3;
+            return (0, _libraries.hashPassword)(req.body.password);
+          case 3:
+            passwordHashed = _context8.sent;
+            // find user and update
+            _User["default"].findByIdAndUpdate(req.params.id, {
+              $set: {
+                password: passwordHashed
+              }
+            }, {
+              "new": true
+            }).then(function (user) {
+              console.log("Password is updated");
+            });
+            return _context8.abrupt("return", res.status(200).json({
+              data: {},
+              message: "Password is updated!"
+            }));
+          case 8:
+            _context8.prev = 8;
+            _context8.t0 = _context8["catch"](0);
+            return _context8.abrupt("return", res.status(500).json({
+              data: {},
+              message: "The password change process has failed!"
+            }));
+          case 11:
+          case "end":
+            return _context8.stop();
+        }
+      }, _callee8, null, [[0, 8]]);
+    }));
+    function changePassword(_x11, _x12) {
+      return _changePassword.apply(this, arguments);
+    }
+    return changePassword;
   }()
 };
 var _default = authController;
