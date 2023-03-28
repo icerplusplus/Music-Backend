@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.favoriteController = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _FavoritePlaylists = _interopRequireDefault(require("../models/FavoritePlaylists"));
 var favoriteController = {
@@ -119,41 +120,53 @@ var favoriteController = {
   // TODO: add song to favorite playlist with favorite playlist id
   updateSongsToFavoritePlaylist: function () {
     var _updateSongsToFavoritePlaylist = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
-      var favoriteId;
+      var favoriteId, playlistTmp, favoriteExist, _favoriteExist$songs, playlist;
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
             favoriteId = req.body.id;
-            _FavoritePlaylists["default"].findByIdAndUpdate(favoriteId, {
+            playlistTmp = [];
+            _context3.next = 5;
+            return _FavoritePlaylists["default"].findOne({
+              _id: favoriteId
+            });
+          case 5:
+            favoriteExist = _context3.sent;
+            if (favoriteExist) {
+              (_favoriteExist$songs = favoriteExist.songs).push.apply(_favoriteExist$songs, (0, _toConsumableArray2["default"])(req.body.songs));
+              playlistTmp = favoriteExist.songs;
+            } else {
+              playlistTmp = req.body.songs;
+            }
+            _context3.next = 9;
+            return _FavoritePlaylists["default"].findByIdAndUpdate(favoriteId, {
               $set: {
-                songs: req.body.songs
+                songs: playlistTmp
               }
             }, {
               "new": true
-            }).then(function (playlist) {
-              console.log("Songs is added");
-              return res.status(200).json({
-                data: playlist,
-                message: "Add new songs to favorite playlist successful!",
-                status: 200
-              });
             });
-            _context3.next = 8;
-            break;
-          case 5:
-            _context3.prev = 5;
+          case 9:
+            playlist = _context3.sent;
+            return _context3.abrupt("return", res.status(200).json({
+              data: playlist,
+              message: "Add new songs to favorite playlist successful!",
+              status: 200
+            }));
+          case 13:
+            _context3.prev = 13;
             _context3.t0 = _context3["catch"](0);
             return _context3.abrupt("return", res.status(200).json({
               data: "",
               message: "Add new songs to favorite playlist data failed!",
               status: 500
             }));
-          case 8:
+          case 16:
           case "end":
             return _context3.stop();
         }
-      }, _callee3, null, [[0, 5]]);
+      }, _callee3, null, [[0, 13]]);
     }));
     function updateSongsToFavoritePlaylist(_x5, _x6) {
       return _updateSongsToFavoritePlaylist.apply(this, arguments);

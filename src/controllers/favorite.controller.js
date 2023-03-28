@@ -68,21 +68,29 @@ export const favoriteController = {
     try {
       const favoriteId = req.body.id;
 
-      FavoritePlaylists.findByIdAndUpdate(
+      let playlistTmp = [];
+      const favoriteExist = await FavoritePlaylists.findOne({
+        _id: favoriteId,
+      });
+      if (favoriteExist) {
+        favoriteExist.songs.push(...req.body.songs);
+        playlistTmp = favoriteExist.songs;
+      } else {
+        playlistTmp = req.body.songs;
+      }
+      const playlist = await FavoritePlaylists.findByIdAndUpdate(
         favoriteId,
         {
           $set: {
-            songs: req.body.songs,
+            songs: playlistTmp,
           },
         },
         { new: true }
-      ).then((playlist) => {
-        console.log("Songs is added");
-        return res.status(200).json({
-          data: playlist,
-          message: "Add new songs to favorite playlist successful!",
-          status: 200,
-        });
+      );
+      return res.status(200).json({
+        data: playlist,
+        message: "Add new songs to favorite playlist successful!",
+        status: 200,
       });
     } catch (error) {
       return res.status(200).json({
