@@ -1,6 +1,10 @@
 import express from "express";
-import authController from "../controllers/auth.controller";
-import { zingmp3Controller } from "../controllers/zingmp3.controller";
+import {
+  zingmp3Controller,
+  authController,
+  favoriteController,
+} from "../controllers";
+
 import middleWare from "./../middlewares";
 
 const router = express.Router();
@@ -64,5 +68,25 @@ router.get("/categorymv", zingmp3Controller.getCategoryMV);
 
 // getVideo
 router.get("/video", zingmp3Controller.getVideo);
+
+// Favorite playlist
+
+router.get(
+  "/favorite/:id",
+  middleWare.verifyToken,
+  favoriteController.getFavoritePlaylistByUserId
+);
+
+router.post(
+  "/createnewfavoritelist",
+  middleWare.verifyToken,
+  favoriteController.createNewFavoritePlaylist
+);
+
+router.post(
+  "/addsongstofavoritelist",
+  middleWare.verifyToken,
+  favoriteController.addSongsToFavoritePlaylist
+);
 
 export default router;

@@ -9,7 +9,7 @@ import {
 
 let refreshTokens = [];
 
-const authController = {
+export const authController = {
   // REGISTER
   register: async (req, res) => {
     try {
@@ -185,5 +185,3 @@ const authController = {
     }
   },
 };
-
-export default authController;
