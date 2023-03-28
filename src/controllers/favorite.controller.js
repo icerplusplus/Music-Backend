@@ -33,6 +33,7 @@ export const favoriteController = {
       const favoriteNameExist = await FavoritePlaylists.findOne({
         userId: req.body.id,
         title: req.body.title,
+        thumbnail: req.body?.thumbnail,
       });
 
       if (favoriteNameExist) {

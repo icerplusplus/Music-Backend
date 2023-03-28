@@ -60,7 +60,7 @@ var favoriteController = {
   // TODO: create new favorite playlist with user id = 64213d45a4bff7483a2fad2f
   createNewFavoritePlaylist: function () {
     var _createNewFavoritePlaylist = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
-      var userId, favoriteNameExist, newFavoritePlaylist, newPlaylist;
+      var _req$body, userId, favoriteNameExist, newFavoritePlaylist, newPlaylist;
       return _regenerator["default"].wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
@@ -69,7 +69,8 @@ var favoriteController = {
             _context2.next = 4;
             return _FavoritePlaylists["default"].findOne({
               userId: req.body.id,
-              title: req.body.title
+              title: req.body.title,
+              thumbnail: (_req$body = req.body) === null || _req$body === void 0 ? void 0 : _req$body.thumbnail
             });
           case 4:
             favoriteNameExist = _context2.sent;
