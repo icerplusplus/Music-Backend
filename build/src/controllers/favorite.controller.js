@@ -19,7 +19,7 @@ var favoriteController = {
             _context.prev = 0;
             id = req.params.id;
             _context.next = 4;
-            return _FavoritePlaylists["default"].findOne({
+            return _FavoritePlaylists["default"].find({
               userId: id
             });
           case 4:

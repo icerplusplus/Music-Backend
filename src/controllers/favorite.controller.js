@@ -4,7 +4,7 @@ export const favoriteController = {
   getFavoritePlaylistByUserId: async (req, res) => {
     try {
       const id = req.params.id;
-      const favorites = await FavoritePlaylists.findOne({ userId: id });
+      const favorites = await FavoritePlaylists.find({ userId: id });
       if (!favorites) {
         return res.status(200).json({
           data: "",
