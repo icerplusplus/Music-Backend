@@ -70,6 +70,6 @@ router.get("/video", _controllers.zingmp3Controller.getVideo);
 
 router.get("/favorite/:id", _middlewares["default"].verifyToken, _controllers.favoriteController.getFavoritePlaylistByUserId);
 router.post("/createnewfavoritelist", _middlewares["default"].verifyToken, _controllers.favoriteController.createNewFavoritePlaylist);
-router.post("/addsongstofavoritelist", _middlewares["default"].verifyToken, _controllers.favoriteController.addSongsToFavoritePlaylist);
+router.post("/addsongstofavoritelist", _middlewares["default"].verifyToken, _controllers.favoriteController.updateSongsToFavoritePlaylist);
 var _default = router;
 exports["default"] = _default;

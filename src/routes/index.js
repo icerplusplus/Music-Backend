@@ -86,7 +86,7 @@ router.post(
 router.post(
   "/addsongstofavoritelist",
   middleWare.verifyToken,
-  favoriteController.addSongsToFavoritePlaylist
+  favoriteController.updateSongsToFavoritePlaylist
 );
 
 export default router;

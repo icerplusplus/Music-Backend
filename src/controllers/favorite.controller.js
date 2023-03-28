@@ -4,7 +4,7 @@ export const favoriteController = {
   getFavoritePlaylistByUserId: async (req, res) => {
     try {
       const id = req.params.id;
-      const favorites = await FavoritePlaylists.findOne({ _id: id });
+      const favorites = await FavoritePlaylists.findOne({ userId: id });
       if (!favorites) {
         return res.status(200).json({
           data: "",
@@ -63,7 +63,7 @@ export const favoriteController = {
   },
 
   // TODO: add song to favorite playlist with favorite playlist id
-  addSongsToFavoritePlaylist: async (req, res) => {
+  updateSongsToFavoritePlaylist: async (req, res) => {
     try {
       const favoriteId = req.body.id;
 
@@ -79,7 +79,7 @@ export const favoriteController = {
         console.log("Songs is added");
         return res.status(200).json({
           data: playlist,
-          message: "Create new favorite playlist successful!",
+          message: "Add new songs to favorite playlist successful!",
           status: 200,
         });
       });

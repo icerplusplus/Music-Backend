@@ -19,7 +19,7 @@ var favoriteController = {
             id = req.params.id;
             _context.next = 4;
             return _FavoritePlaylists["default"].findOne({
-              _id: id
+              userId: id
             });
           case 4:
             favorites = _context.sent;
@@ -116,8 +116,8 @@ var favoriteController = {
     return createNewFavoritePlaylist;
   }(),
   // TODO: add song to favorite playlist with favorite playlist id
-  addSongsToFavoritePlaylist: function () {
-    var _addSongsToFavoritePlaylist = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
+  updateSongsToFavoritePlaylist: function () {
+    var _updateSongsToFavoritePlaylist = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
       var favoriteId;
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
@@ -134,7 +134,7 @@ var favoriteController = {
               console.log("Songs is added");
               return res.status(200).json({
                 data: playlist,
-                message: "Create new favorite playlist successful!",
+                message: "Add new songs to favorite playlist successful!",
                 status: 200
               });
             });
@@ -154,10 +154,10 @@ var favoriteController = {
         }
       }, _callee3, null, [[0, 5]]);
     }));
-    function addSongsToFavoritePlaylist(_x5, _x6) {
-      return _addSongsToFavoritePlaylist.apply(this, arguments);
+    function updateSongsToFavoritePlaylist(_x5, _x6) {
+      return _updateSongsToFavoritePlaylist.apply(this, arguments);
     }
-    return addSongsToFavoritePlaylist;
+    return updateSongsToFavoritePlaylist;
   }()
 };
 exports.favoriteController = favoriteController;
