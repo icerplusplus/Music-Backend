@@ -63,6 +63,48 @@ export const favoriteController = {
     }
   },
 
+  // TODO: update favorite list
+  updateFavoritePlaylist: async (req, res) => {
+    try {
+      const userId = req.body.id;
+      const favoriteIdList = req.body.favoriteIdList;
+      const favoriteListExist = await FavoritePlaylists.find({
+        userId: userId,
+      });
+
+      favoriteIdList.length > 0 &&
+        favoriteIdList.map(async (id) => {
+          if (!favoriteListExist.includes(id)) {
+            await FavoritePlaylists.findByIdAndDelete(id);
+          }
+        });
+
+      const updatedList = await FavoritePlaylists.find({
+        userId: userId,
+      });
+
+      if (updatedList.length === 0) {
+        return res.status(200).json({
+          data: "",
+          message: "No favorite playlist!",
+          status: 404,
+        });
+      }
+
+      return res.status(200).json({
+        data: updatedList,
+        message: "Update favorite playlist successful!",
+        status: 200,
+      });
+    } catch (error) {
+      return res.status(200).json({
+        data: "",
+        message: "Update favorite playlist data failed!",
+        status: 500,
+      });
+    }
+  },
+
   // TODO: add song to favorite playlist with favorite playlist id
   updateSongsToFavoritePlaylist: async (req, res) => {
     try {

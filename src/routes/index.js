@@ -84,6 +84,12 @@ router.post(
 );
 
 router.post(
+  "/updatefavoritelist",
+  middleWare.verifyToken,
+  favoriteController.updateFavoritePlaylist
+);
+
+router.post(
   "/addsongstofavoritelist",
   middleWare.verifyToken,
   favoriteController.updateSongsToFavoritePlaylist
