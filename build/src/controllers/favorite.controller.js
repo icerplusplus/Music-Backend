@@ -120,7 +120,7 @@ var favoriteController = {
   // TODO: update favorite list
   updateFavoritePlaylist: function () {
     var _updateFavoritePlaylist = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(req, res) {
-      var userId, favoriteIdList, favoriteListExist, updatedList;
+      var userId, favoriteIdList, favoriteListExist, tmpFavorite, updatedList;
       return _regenerator["default"].wrap(function _callee4$(_context4) {
         while (1) switch (_context4.prev = _context4.next) {
           case 0:
@@ -133,27 +133,28 @@ var favoriteController = {
             });
           case 5:
             favoriteListExist = _context4.sent;
-            favoriteIdList.length > 0 && favoriteIdList.map( /*#__PURE__*/function () {
-              var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(id) {
-                return _regenerator["default"].wrap(function _callee3$(_context3) {
-                  while (1) switch (_context3.prev = _context3.next) {
-                    case 0:
-                      if (favoriteListExist.includes(id)) {
-                        _context3.next = 3;
-                        break;
-                      }
-                      _context3.next = 3;
-                      return _FavoritePlaylists["default"].findByIdAndDelete(id);
-                    case 3:
-                    case "end":
-                      return _context3.stop();
-                  }
-                }, _callee3);
-              }));
-              return function (_x7) {
-                return _ref.apply(this, arguments);
-              };
-            }());
+            if (favoriteListExist.length > 0) {
+              tmpFavorite = favoriteListExist.filter(function (item) {
+                return !favoriteIdList.includes(item._id.toString());
+              });
+              tmpFavorite.length > 0 && tmpFavorite.map( /*#__PURE__*/function () {
+                var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(item) {
+                  return _regenerator["default"].wrap(function _callee3$(_context3) {
+                    while (1) switch (_context3.prev = _context3.next) {
+                      case 0:
+                        _context3.next = 2;
+                        return _FavoritePlaylists["default"].findByIdAndDelete(item._id);
+                      case 2:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }, _callee3);
+                }));
+                return function (_x7) {
+                  return _ref.apply(this, arguments);
+                };
+              }());
+            }
             _context4.next = 9;
             return _FavoritePlaylists["default"].find({
               userId: userId

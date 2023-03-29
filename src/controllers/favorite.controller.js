@@ -68,16 +68,20 @@ export const favoriteController = {
     try {
       const userId = req.body.id;
       const favoriteIdList = req.body.favoriteIdList;
+
       const favoriteListExist = await FavoritePlaylists.find({
         userId: userId,
       });
 
-      favoriteIdList.length > 0 &&
-        favoriteIdList.map(async (id) => {
-          if (!favoriteListExist.includes(id)) {
-            await FavoritePlaylists.findByIdAndDelete(id);
-          }
-        });
+      if (favoriteListExist.length > 0) {
+        const tmpFavorite = favoriteListExist.filter(
+          (item) => !favoriteIdList.includes(item._id.toString())
+        );
+        tmpFavorite.length > 0 &&
+          tmpFavorite.map(async (item) => {
+            await FavoritePlaylists.findByIdAndDelete(item._id);
+          });
+      }
 
       const updatedList = await FavoritePlaylists.find({
         userId: userId,
