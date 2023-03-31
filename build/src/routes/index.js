@@ -84,5 +84,6 @@ router.get("/getallsongs", _middlewares["default"].verifyTokenAndAdmin, _control
 router.get("/getsongbyid/:id", _middlewares["default"].verifyTokenAndAdmin, _controllers.songController.getSongById);
 router.put("/updatesong", _middlewares["default"].verifyTokenAndAdmin, _controllers.songController.updateSongById);
 router["delete"]("/deletesong/:id", _middlewares["default"].verifyTokenAndAdmin, _controllers.songController.removeSongById);
+router.post("/createsong", _middlewares["default"].verifyTokenAndAdmin, _controllers.songController.create);
 var _default = router;
 exports["default"] = _default;

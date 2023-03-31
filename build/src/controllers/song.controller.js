@@ -243,6 +243,7 @@ var songController = {
           case 0:
             _context5.prev = 0;
             newSong = new _Song["default"]({
+              encodeId: req.body.encodeId,
               title: req.body.title,
               alias: req.body.alias,
               artistsNames: req.body.artistsNames,

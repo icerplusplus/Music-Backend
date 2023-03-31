@@ -137,4 +137,10 @@ router.delete(
   songController.removeSongById
 );
 
+router.post(
+  "/createsong",
+  middleWare.verifyTokenAndAdmin,
+  songController.create
+);
+
 export default router;

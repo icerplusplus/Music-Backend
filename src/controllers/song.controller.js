@@ -118,6 +118,7 @@ export const songController = {
   create: async (req, res) => {
     try {
       const newSong = new Song({
+        encodeId: req.body.encodeId,
         title: req.body.title,
         alias: req.body.alias,
         artistsNames: req.body.artistsNames,
