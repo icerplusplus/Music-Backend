@@ -147,7 +147,7 @@ var userController = {
             userInfo = {
               name: req.body.name,
               isAdmin: req.body.isAdmin,
-              avatar: ((_req$body = req.body) === null || _req$body === void 0 ? void 0 : _req$body.avatar) || _constant.defaultAvatar,
+              avatar: ((_req$body = req.body) === null || _req$body === void 0 ? void 0 : _req$body.avatar) || (user === null || user === void 0 ? void 0 : user.avatar) || _constant.defaultAvatar,
               accessToken: "",
               refreshToken: ""
             };
@@ -162,7 +162,7 @@ var userController = {
               name: req.body.name,
               password: passwordHashed,
               isAdmin: req.body.isAdmin,
-              avatar: ((_req$body2 = req.body) === null || _req$body2 === void 0 ? void 0 : _req$body2.avatar) || _constant.defaultAvatar,
+              avatar: ((_req$body2 = req.body) === null || _req$body2 === void 0 ? void 0 : _req$body2.avatar) || (user === null || user === void 0 ? void 0 : user.avatar) || _constant.defaultAvatar,
               accessToken: "",
               refreshToken: ""
             };
