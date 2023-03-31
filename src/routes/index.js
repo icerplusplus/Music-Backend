@@ -4,6 +4,7 @@ import {
   authController,
   favoriteController,
   userController,
+  songController,
 } from "../controllers";
 
 import middleWare from "./../middlewares";
@@ -114,6 +115,26 @@ router.delete(
   "/deleteuser/:id",
   middleWare.verifyTokenAndAdmin,
   userController.removeUserById
+);
+
+// song
+router.get("/getallsongs", middleWare.verifyTokenAndAdmin, songController.all);
+router.get(
+  "/getsongbyid/:id",
+  middleWare.verifyTokenAndAdmin,
+  songController.getSongById
+);
+
+router.put(
+  "/updatesong",
+  middleWare.verifyTokenAndAdmin,
+  songController.updateSongById
+);
+
+router.delete(
+  "/deletesong/:id",
+  middleWare.verifyTokenAndAdmin,
+  songController.removeSongById
 );
 
 export default router;

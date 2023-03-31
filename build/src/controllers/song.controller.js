@@ -115,8 +115,8 @@ var songController = {
     return getSongById;
   }(),
   // UPDATE SONG INFO
-  updatesONGById: function () {
-    var _updatesONGById = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
+  updateSongById: function () {
+    var _updateSongById = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
       var songId, song;
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
@@ -174,10 +174,10 @@ var songController = {
         }
       }, _callee3, null, [[0, 10]]);
     }));
-    function updatesONGById(_x5, _x6) {
-      return _updatesONGById.apply(this, arguments);
+    function updateSongById(_x5, _x6) {
+      return _updateSongById.apply(this, arguments);
     }
-    return updatesONGById;
+    return updateSongById;
   }(),
   // DELETE SONG BY ID
   removeSongById: function () {

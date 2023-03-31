@@ -52,7 +52,7 @@ export const songController = {
   },
 
   // UPDATE SONG INFO
-  updatesONGById: async (req, res) => {
+  updateSongById: async (req, res) => {
     try {
       const songId = req.body.id;
 
