@@ -47,3 +47,14 @@ Object.keys(_user).forEach(function (key) {
     }
   });
 });
+var _song = require("./song.controller");
+Object.keys(_song).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _song[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _song[key];
+    }
+  });
+});

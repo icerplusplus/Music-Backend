@@ -9,7 +9,11 @@ export const options = {
   },
 };
 
-export const defaultAvatar = "https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bXVzaWN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
+export const defaultSongThumb =
+  "https://w7.pngwing.com/pngs/315/386/png-transparent-music-dj-mix-song-mp3-color-notes-color-splash-album-color-pencil-thumbnail.png";
+
+export const defaultAvatar =
+  "https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bXVzaWN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60";
 
 export const spotifyScopes = [
   "ugc-image-upload",
