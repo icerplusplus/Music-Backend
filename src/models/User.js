@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { defaultAvatar } from "../utils/constant";
 
 const userSchema = new mongoose.Schema(
   {
@@ -21,8 +22,7 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: "string",
-      default:
-        "https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bXVzaWN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
+      default: defaultAvatar,
     },
     isAdmin: {
       type: "boolean",

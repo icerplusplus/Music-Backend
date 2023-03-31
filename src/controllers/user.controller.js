@@ -1,5 +1,6 @@
 import { hashPassword } from "../libraries/hashPassword.js";
 import User from "../models/User.js";
+import { defaultAvatar } from "../utils/constant.js";
 
 export const userController = {
   // REGISTER
@@ -68,6 +69,7 @@ export const userController = {
         userInfo = {
           name: req.body.name,
           isAdmin: req.body.isAdmin,
+          avatar: req.body?.avatar || defaultAvatar,
           accessToken: "",
           refreshToken: "",
         };
@@ -77,6 +79,7 @@ export const userController = {
           name: req.body.name,
           password: passwordHashed,
           isAdmin: req.body.isAdmin,
+          avatar: req.body?.avatar || defaultAvatar,
           accessToken: "",
           refreshToken: "",
         };

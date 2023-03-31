@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _mongoose = _interopRequireDefault(require("mongoose"));
+var _constant = require("../utils/constant");
 var userSchema = new _mongoose["default"].Schema({
   name: {
     type: "string",
@@ -26,7 +27,7 @@ var userSchema = new _mongoose["default"].Schema({
   },
   avatar: {
     type: "string",
-    "default": "https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bXVzaWN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
+    "default": _constant.defaultAvatar
   },
   isAdmin: {
     type: "boolean",

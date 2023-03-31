@@ -9,6 +9,7 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _hashPassword = require("../libraries/hashPassword.js");
 var _User = _interopRequireDefault(require("../models/User.js"));
+var _constant = require("../utils/constant.js");
 var userController = {
   // REGISTER
   all: function () {
@@ -116,7 +117,7 @@ var userController = {
   // UPDATE USER INFO
   updateUserById: function () {
     var _updateUserById = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(req, res) {
-      var userId, userPassword, user, userInfo, passwordHashed;
+      var userId, userPassword, user, userInfo, _req$body, _req$body2, passwordHashed;
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
@@ -146,6 +147,7 @@ var userController = {
             userInfo = {
               name: req.body.name,
               isAdmin: req.body.isAdmin,
+              avatar: ((_req$body = req.body) === null || _req$body === void 0 ? void 0 : _req$body.avatar) || _constant.defaultAvatar,
               accessToken: "",
               refreshToken: ""
             };
@@ -160,6 +162,7 @@ var userController = {
               name: req.body.name,
               password: passwordHashed,
               isAdmin: req.body.isAdmin,
+              avatar: ((_req$body2 = req.body) === null || _req$body2 === void 0 ? void 0 : _req$body2.avatar) || _constant.defaultAvatar,
               accessToken: "",
               refreshToken: ""
             };
