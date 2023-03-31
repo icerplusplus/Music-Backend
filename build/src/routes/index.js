@@ -72,5 +72,11 @@ router.get("/favorite/:id", _middlewares["default"].verifyToken, _controllers.fa
 router.post("/createnewfavoritelist", _middlewares["default"].verifyToken, _controllers.favoriteController.createNewFavoritePlaylist);
 router.post("/updatefavoritelist", _middlewares["default"].verifyToken, _controllers.favoriteController.updateFavoritePlaylist);
 router.post("/addsongstofavoritelist", _middlewares["default"].verifyToken, _controllers.favoriteController.updateSongsToFavoritePlaylist);
+
+// users
+router.get("/getallusers", _middlewares["default"].verifyTokenAndAdmin, _controllers.userController.all);
+router.get("/getuserbyid/:id", _middlewares["default"].verifyTokenAndAdmin, _controllers.userController.getUserById);
+router.put("/updateuser", _middlewares["default"].verifyTokenAndAdmin, _controllers.userController.updateUserById);
+router["delete"]("/deleteuser/:id", _middlewares["default"].verifyTokenAndAdmin, _controllers.userController.removeUserById);
 var _default = router;
 exports["default"] = _default;

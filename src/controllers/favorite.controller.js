@@ -49,6 +49,7 @@ export const favoriteController = {
       });
       const newPlaylist = await newFavoritePlaylist.save();
 
+      
       return res.status(200).json({
         data: newPlaylist,
         message: "Create new favorite playlist successful!",

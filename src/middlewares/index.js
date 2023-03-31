@@ -9,13 +9,17 @@ const middleWare = {
       jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
         if (err) {
           // 403 - Forbidden
-          return res.status(403).json({ message: "Token is not valid" });
+          return res
+            .status(200)
+            .json({ data: "", status: 403, message: "Token is not valid" });
         }
         req.user = user;
         next();
       });
     } else {
-      return res.status(401).json({ message: "You're not authenticated" });
+      return res
+        .status(200)
+        .json({ data: "", status: 401, message: "You're not authenticated" });
     }
   },
 

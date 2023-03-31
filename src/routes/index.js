@@ -3,6 +3,7 @@ import {
   zingmp3Controller,
   authController,
   favoriteController,
+  userController,
 } from "../controllers";
 
 import middleWare from "./../middlewares";
@@ -93,6 +94,26 @@ router.post(
   "/addsongstofavoritelist",
   middleWare.verifyToken,
   favoriteController.updateSongsToFavoritePlaylist
+);
+
+// users
+router.get("/getallusers", middleWare.verifyTokenAndAdmin, userController.all);
+router.get(
+  "/getuserbyid/:id",
+  middleWare.verifyTokenAndAdmin,
+  userController.getUserById
+);
+
+router.put(
+  "/updateuser",
+  middleWare.verifyTokenAndAdmin,
+  userController.updateUserById
+);
+
+router.delete(
+  "/deleteuser/:id",
+  middleWare.verifyTokenAndAdmin,
+  userController.removeUserById
 );
 
 export default router;

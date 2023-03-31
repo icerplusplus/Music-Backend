@@ -15,7 +15,9 @@ var middleWare = {
       _jsonwebtoken["default"].verify(accessToken, process.env.JWT_ACCESS_KEY, function (err, user) {
         if (err) {
           // 403 - Forbidden
-          return res.status(403).json({
+          return res.status(200).json({
+            data: "",
+            status: 403,
             message: "Token is not valid"
           });
         }
@@ -23,7 +25,9 @@ var middleWare = {
         next();
       });
     } else {
-      return res.status(401).json({
+      return res.status(200).json({
+        data: "",
+        status: 401,
         message: "You're not authenticated"
       });
     }
