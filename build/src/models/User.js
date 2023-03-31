@@ -24,6 +24,10 @@ var userSchema = new _mongoose["default"].Schema({
     required: true,
     maxlength: 255
   },
+  avatar: {
+    type: "string",
+    "default": "https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bXVzaWN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
+  },
   isAdmin: {
     type: "boolean",
     "default": false
