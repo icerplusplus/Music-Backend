@@ -5,7 +5,11 @@ export const userController = {
   // REGISTER
   all: async (req, res) => {
     try {
-      const users = await User.find({});
+      const size = Number(req.query.size);
+      const page = Number(req.query.page);
+      const skipNumber = size * (page - 1);
+      const total = await User.find({});
+      const users = await User.find({}).skip(skipNumber).limit(size);
 
       if (!users) {
         return res
@@ -15,6 +19,8 @@ export const userController = {
 
       return res.status(200).json({
         data: users,
+        total: total.length,
+        page: page,
         status: 200,
         message: "Get users data successful",
       });

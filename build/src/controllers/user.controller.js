@@ -13,17 +13,24 @@ var userController = {
   // REGISTER
   all: function () {
     var _all = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
-      var users;
+      var size, page, skipNumber, total, users;
       return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _context.next = 3;
+            size = Number(req.query.size);
+            page = Number(req.query.page);
+            skipNumber = size * (page - 1);
+            _context.next = 6;
             return _User["default"].find({});
-          case 3:
+          case 6:
+            total = _context.sent;
+            _context.next = 9;
+            return _User["default"].find({}).skip(skipNumber).limit(size);
+          case 9:
             users = _context.sent;
             if (users) {
-              _context.next = 6;
+              _context.next = 12;
               break;
             }
             return _context.abrupt("return", res.status(200).json({
@@ -31,25 +38,27 @@ var userController = {
               status: 404,
               message: "No user found!"
             }));
-          case 6:
+          case 12:
             return _context.abrupt("return", res.status(200).json({
               data: users,
+              total: total.length,
+              page: page,
               status: 200,
               message: "Get users data successful"
             }));
-          case 9:
-            _context.prev = 9;
+          case 15:
+            _context.prev = 15;
             _context.t0 = _context["catch"](0);
             return _context.abrupt("return", res.status(200).json({
               data: "",
               status: 500,
               message: _context.t0
             }));
-          case 12:
+          case 18:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[0, 9]]);
+      }, _callee, null, [[0, 15]]);
     }));
     function all(_x, _x2) {
       return _all.apply(this, arguments);

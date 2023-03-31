@@ -30,11 +30,10 @@ export const authController = {
       // Save to database after 5s
       const user = await newUser.save();
       const { isAdmin, password, ...filterInfo } = user._doc;
-      setTimeout(async () => {
-        return res
-          .status(200)
-          .json({ data: filterInfo, message: "create new account successful" });
-      }, 5000);
+
+      return res
+        .status(200)
+        .json({ data: filterInfo, message: "create new account successful" });
     } catch (error) {
       console.log(error);
       return res.status(200).json(error);
