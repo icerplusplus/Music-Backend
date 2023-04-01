@@ -12,10 +12,9 @@ export const songController = {
       const skipNumber = size * (page - 1);
       const total = await Song.find({});
       const songs = await Song.find({})
-        .sort({ createAt: -1 })
+        .sort({ createdAt: -1 })
         .skip(skipNumber)
         .limit(size);
-
       if (!songs) {
         return res
           .status(200)
