@@ -145,9 +145,9 @@ var songController = {
                 title: req.body.title,
                 alias: req.body.alias,
                 artistsNames: req.body.artistsNames,
-                duration: req.body.duration,
-                thumbnailM: req.body.thumbnailM,
-                audioUrl: req.body.audioUrl
+                duration: req.body.duration || song.duration,
+                thumbnailM: req.body.thumbnailM || song.thumbnailM,
+                audioUrl: req.body.audioUrl || song.audioUrl
               }
             }, {
               "new": true
