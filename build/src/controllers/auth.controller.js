@@ -13,6 +13,7 @@ var _User = _interopRequireDefault(require("../models/User.js"));
 var _bcrypt = _interopRequireDefault(require("bcrypt"));
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 var _libraries = require("../libraries");
+var _constant = require("../utils/constant.js");
 var _excluded = ["isAdmin", "password"],
   _excluded2 = ["password"],
   _excluded3 = ["password"];
@@ -23,7 +24,7 @@ var authController = {
   // REGISTER
   register: function () {
     var _register = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
-      var passwordHashed, userExist, newUser, user, _user$_doc, isAdmin, password, filterInfo;
+      var _req$body, _req$body2, passwordHashed, userExist, newUser, user, _user$_doc, isAdmin, password, filterInfo;
       return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
@@ -51,7 +52,9 @@ var authController = {
             newUser = new _User["default"]({
               name: req.body.name,
               email: req.body.email,
-              password: passwordHashed
+              password: passwordHashed,
+              isAdmin: ((_req$body = req.body) === null || _req$body === void 0 ? void 0 : _req$body.isAdmin) || false,
+              avatar: ((_req$body2 = req.body) === null || _req$body2 === void 0 ? void 0 : _req$body2.avatar) || _constant.defaultAvatar
             }); // Save to database after 5s
             _context.next = 12;
             return newUser.save();

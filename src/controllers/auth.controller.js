@@ -6,6 +6,7 @@ import {
   generateRefreshToken,
   hashPassword,
 } from "../libraries";
+import { defaultAvatar } from "../utils/constant.js";
 
 let refreshTokens = [];
 
@@ -25,6 +26,8 @@ export const authController = {
         name: req.body.name,
         email: req.body.email,
         password: passwordHashed,
+        isAdmin: req.body?.isAdmin || false,
+        avatar: req.body?.avatar || defaultAvatar,
       });
 
       // Save to database after 5s
