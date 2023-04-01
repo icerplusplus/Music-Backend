@@ -19,7 +19,11 @@ export const authController = {
       if (userExist)
         return res
           .status(200)
-          .json({ data: {}, message: "Email already exists in system!" });
+          .json({
+            data: {},
+            status: 403,
+            message: "Email already exists in system!",
+          });
 
       // Create new user
       const newUser = new User({

@@ -45,6 +45,7 @@ var authController = {
             }
             return _context.abrupt("return", res.status(200).json({
               data: {},
+              status: 403,
               message: "Email already exists in system!"
             }));
           case 9:
