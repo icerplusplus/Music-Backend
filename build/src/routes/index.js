@@ -80,7 +80,7 @@ router.put("/updateuser", _middlewares["default"].verifyTokenAndAdmin, _controll
 router["delete"]("/deleteuser/:id", _middlewares["default"].verifyTokenAndAdmin, _controllers.userController.removeUserById);
 
 // song
-router.get("/getallsongs", _middlewares["default"].verifyTokenAndAdmin, _controllers.songController.all);
+router.get("/getallsongs", _controllers.songController.all);
 router.get("/getsongbyid/:id", _middlewares["default"].verifyTokenAndAdmin, _controllers.songController.getSongById);
 router.put("/updatesong", _middlewares["default"].verifyTokenAndAdmin, _controllers.songController.updateSongById);
 router["delete"]("/deletesong/:id", _middlewares["default"].verifyTokenAndAdmin, _controllers.songController.removeSongById);

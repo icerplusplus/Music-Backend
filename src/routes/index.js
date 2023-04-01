@@ -118,7 +118,7 @@ router.delete(
 );
 
 // song
-router.get("/getallsongs", middleWare.verifyTokenAndAdmin, songController.all);
+router.get("/getallsongs", songController.all);
 router.get(
   "/getsongbyid/:id",
   middleWare.verifyTokenAndAdmin,
