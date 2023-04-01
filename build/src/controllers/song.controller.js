@@ -27,7 +27,9 @@ var songController = {
           case 6:
             total = _context.sent;
             _context.next = 9;
-            return _Song["default"].find({}).skip(skipNumber).limit(size);
+            return _Song["default"].find({}).sort({
+              createAt: -1
+            }).skip(skipNumber).limit(size);
           case 9:
             songs = _context.sent;
             if (songs) {
